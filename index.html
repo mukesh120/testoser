@@ -589,6 +589,75 @@
                 display: none;
             }
         }
+
+        /* Button Loading Animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        /* Fade out animation for wallet info */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+        }
+        
+        /* Fade in animation for wallet info */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .wallet-info.fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+        
+        .wallet-info.fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        /* Pulsing text animation */
+        .pulsing-text {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
     </style>
 </head>
 <body>
@@ -827,23 +896,28 @@
         let certificateData = {};
 
         // ========================================
-        // CONNECT/DISCONNECT WALLET
+        // CONNECT/DISCONNECT WALLET (WITH ANIMATIONS)
         // ========================================
         async function connectWallet() {
             const btn = document.getElementById('connectBtn');
             const walletInfo = document.getElementById('walletInfo');
             
-            // If already connected, disconnect
+            // If already connected, disconnect with animation
             if (btn.textContent === 'Disconnect Wallet') {
-                // Show loading state
+                // Show loading animation
                 btn.disabled = true;
-                btn.textContent = 'Disconnecting...';
+                btn.classList.add('btn-loading');
+                btn.innerHTML = '<span class="pulsing-text">Disconnecting</span>';
                 
-                // Wait 2 seconds
+                // Add fade-out animation to wallet info
+                walletInfo.classList.add('fade-out');
+                
+                // Wait 2 seconds for animation
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 
                 // Reset UI
-                walletInfo.classList.remove('show');
+                walletInfo.classList.remove('show', 'fade-out', 'fade-in');
+                btn.classList.remove('btn-loading');
                 btn.disabled = false;
                 btn.textContent = 'Connect Wallet';
                 
@@ -861,12 +935,17 @@
                 return;
             }
             
-            // Otherwise, connect wallet
+            // Otherwise, connect wallet with animation
             try {
                 if (!window.ethereum) {
                     alert('Please install MetaMask or Trust Wallet!');
                     return;
                 }
+        
+                // Show loading animation
+                btn.disabled = true;
+                btn.classList.add('btn-loading');
+                btn.innerHTML = '<span class="pulsing-text">Connecting</span>';
         
                 web3 = new Web3(window.ethereum);
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -874,21 +953,43 @@
         
                 const chainId = await web3.eth.getChainId();
                 if (chainId !== 1) {
+                    btn.classList.remove('btn-loading');
+                    btn.disabled = false;
+                    btn.textContent = 'Connect Wallet';
                     alert('Please switch to Ethereum Mainnet!');
                     return;
                 }
         
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
         
+                // Wait 2 seconds for animation
+                await new Promise(resolve => setTimeout(resolve, 2000));
+        
+                // Remove loading animation
+                btn.classList.remove('btn-loading');
+                
+                // Update wallet address with fade-in animation
                 document.getElementById('walletAddress').textContent = 
                     account.slice(0, 6) + '...' + account.slice(-4);
+                
+                walletInfo.classList.add('fade-in');
                 walletInfo.classList.add('show');
+                
                 btn.textContent = 'Disconnect Wallet';
                 
                 document.getElementById('verificationSection').classList.add('show');
+                
             } catch (error) {
                 console.error(error);
-                alert('Failed to connect wallet: ' + error.message);
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+                btn.textContent = 'Connect Wallet';
+                
+                if (error.code === 4001) {
+                    alert('Connection rejected. Please try again!');
+                } else {
+                    alert('Failed to connect wallet: ' + error.message);
+                }
             }
         }
 
