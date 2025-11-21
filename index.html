@@ -826,7 +826,6 @@
         let web3, account, usdtContract;
         let certificateData = {};
 
-        
         // ========================================
         // CONNECT/DISCONNECT WALLET
         // ========================================
@@ -836,6 +835,13 @@
             
             // If already connected, disconnect
             if (btn.textContent === 'Disconnect Wallet') {
+                // Show loading state
+                btn.disabled = true;
+                btn.textContent = 'Disconnecting...';
+                
+                // Wait 2 seconds
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
                 // Reset UI
                 walletInfo.classList.remove('show');
                 btn.disabled = false;
