@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23667eea'/><stop offset='100%25' style='stop-color:%23764ba2'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><path d='M 30 50 L 45 65 L 70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
     <title>Admin Dashboard - Trading Service</title>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px;}
@@ -157,7 +158,7 @@
           min-height: 100vh;
           width: 100vw;
           display: flex;
-          align-items: center;
+          align-items: flex-start;        /* Anchor card higher, not dead center */
           justify-content: center;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
@@ -172,20 +173,25 @@
           align-items: center;
           min-width: 350px;
           max-width: 97vw;
+          margin-top: 11vh;           /* Puts card higher on screen */
+
         }
         
         .admin-login-header {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          font-size: 2.05rem;
+          font-size: 2.32rem;
           font-weight: 900;
-          letter-spacing: 1px;
-          color: #61a1fb;
+          letter-spacing: 0.5px;
           margin-bottom: 30px;
-          gap: 16px;
-          line-height: 1.2;
+          color: #fff;
+          text-align: center;
+          text-shadow:
+            0 2px 18px #21105b4a,
+            0 8px 40px #2f3f9041;
+          background: linear-gradient(90deg, #bbf0fe 20%, #47a6ff 65%, #8fbfff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-fill-color: transparent;
         }
         
         .login-title {
@@ -205,16 +211,17 @@
           align-items: center;
           gap: 16px;
           width: 100%;
-          margin-bottom: 6px;
+          margin-bottom: 4px;
+          justify-content: center;
         }
         
         .admin-input {
           font-size: 18px;
           border-radius: 8px;
-          border: 1.5px solid #B4C7F5;
+          border: 1.7px solid #B4C7F5;
           padding: 13px 16px;
           width: 220px;
-          max-width: 72vw;
+          max-width: 62vw;
           background: #fff;
           outline: none;
           box-shadow: 0 1px 5px rgba(80,129,238,0.08);
@@ -222,7 +229,7 @@
         }
         
         .admin-input:focus {
-          border: 2px solid #629ae6;
+          border: 2px solid #51a0f4;
         }
         
         .admin-btn {
@@ -234,14 +241,13 @@
           padding: 13px 33px;
           cursor: pointer;
           font-weight: 600;
-          box-shadow: 0 1.5px 12px rgba(85,112,255,0.13);
-          transition: background 0.16s;
+          box-shadow: 0 2px 12px rgba(85,112,255,0.13);
+          transition: background 0.18s;
         }
         
         .admin-btn:hover {
           background: #357ccd;
         }
-
 
     </style>
 </head>
@@ -249,10 +255,7 @@
 
     <div id="adminLoginRoot">
       <div class="admin-login-card">
-        <div class="admin-login-header">
-          <span class="login-title">Admin Login</span>
-          <span class="login-lock">🔒</span>
-        </div>
+        <div class="admin-login-header">Admin Login</div>
         <div class="login-row">
           <input type="password" id="adminPassword" class="admin-input" placeholder="Enter admin password" autocomplete="current-password">
           <button class="admin-btn" onclick="adminLogin()">Login</button>
