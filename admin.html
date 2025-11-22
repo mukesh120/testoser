@@ -270,6 +270,10 @@
     <div class="container" id="adminDashboard" style="display:none;">
         <h1>👥 Admin Dashboard</h1>
         <p class="subtitle">TradingServiceHQ - User Management Panel</p>
+
+        <!-- ADD THE LOGOUT BUTTON HERE -->
+        <button class="admin-logout" onclick="adminLogout()">Logout</button>
+        
         <div class="stats">
             <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-number" id="totalUsers">-</div></div>
             <div class="stat-card"><div class="stat-label">Last 24 Hours</div><div class="stat-number" id="recentUsers">-</div></div>
@@ -292,36 +296,119 @@
             </table>
         </div>
     </div>
+
+    
     <script>
         const BACKEND_URL = 'https://aml-verify-backend.vercel.app';
         let adminSecret = '';
         let autoRefreshInterval = null;
         let retryCount = 0;
         const MAX_RETRIES = 3;
-        function adminLogin() { adminSecret = document.getElementById('adminPassword').value; document.getElementById('loginError').style.display = 'none'; loadUsers(false);}
+
+        function adminLogin() {
+            const passwordInput = document.getElementById('adminPassword');
+            const loginError = document.getElementById('loginError');
+            const pwd = passwordInput.value.trim();
+        
+            // Show error if input is empty
+            if (!pwd) {
+                loginError.textContent = '⚠️ Please enter the admin password.';
+                loginError.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                return;
+            }
+        
+            adminSecret = pwd;
+            loginError.style.display = 'none';
+        
+            // Try to login by calling loadUsers (which will use adminSecret)
+            loadUsers(false);
+        
+            // PATCH: Show error and clear input on unauthorized (needs to be checked in loadUsers)
+            // This happens in your loadUsers function, which should check:
+            // if (response.status === 401) { ... show error ... }
+        }
+
+
+        
         function showAdminUI(show) { document.getElementById('loginContainer').style.display = show ? 'none' : 'block'; document.getElementById('adminDashboard').style.display = show ? 'block' : 'none';}
         function hideAllStates() { document.getElementById('loading').style.display = 'none'; document.getElementById('wakeupState').style.display = 'none'; document.getElementById('emptyState').style.display = 'none'; document.getElementById('errorState').style.display = 'none'; document.getElementById('tableContainer').style.display = 'none';}
         function showLoading() { hideAllStates(); document.getElementById('loading').style.display = 'block'; document.getElementById('totalUsers').textContent = '⏳'; document.getElementById('recentUsers').textContent = '⏳';}
         function showWakeup() { hideAllStates(); document.getElementById('wakeupState').style.display = 'block'; document.getElementById('retryCount').textContent = retryCount; document.getElementById('totalUsers').textContent = '🔄'; document.getElementById('recentUsers').textContent = '🔄';}
+        
+        
         async function loadUsers(isRetry = false) {
             try {
-                if (!isRetry) { retryCount = 0; showLoading();} else { showWakeup();}
+                if (!isRetry) { retryCount = 0; showLoading(); } else { showWakeup(); }
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 15000);
-                const response = await fetch(`${BACKEND_URL}/api/get-users`, { signal: controller.signal, headers: { 'x-admin-key': adminSecret }});
+        
+                const response = await fetch(`${BACKEND_URL}/api/get-users`, {
+                    signal: controller.signal,
+                    headers: { 'x-admin-key': adminSecret }
+                });
+        
                 clearTimeout(timeoutId);
-                if (response.status === 401) { showAdminUI(false); document.getElementById('loginError').style.display = 'block'; document.getElementById('adminPassword').value = ''; retryCount = 0; return;}
-                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`);}
+        
+                // Handle unauthorized (bad password)
+                if (response.status === 401) {
+                    showAdminUI(false);
+                    const loginError = document.getElementById('loginError');
+                    loginError.textContent = '❌ Incorrect password. Please try again.';
+                    loginError.style.display = 'block';
+                    const passwordInput = document.getElementById('adminPassword');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    retryCount = 0;
+                    // Also remove session, if any
+                    localStorage.removeItem('adminLogin');
+                    return;
+                }
+        
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
                 const data = await response.json();
-                retryCount = 0; showAdminUI(true); hideAllStates();
-                if (data.success && data.users.length > 0) { displayUsers(data.users);}
-                else { document.getElementById('emptyState').style.display = 'block'; document.getElementById('totalUsers').textContent = '0'; document.getElementById('recentUsers').textContent = '0';}
+                retryCount = 0;
+                showAdminUI(true);
+                hideAllStates();
+        
+                // Session persistence: mark login as successful for 2 hours
+                localStorage.setItem('adminLogin', Date.now().toString());
+        
+                if (data.success && data.users.length > 0) {
+                    displayUsers(data.users);
+                } else {
+                    document.getElementById('emptyState').style.display = 'block';
+                    document.getElementById('totalUsers').textContent = '0';
+                    document.getElementById('recentUsers').textContent = '0';
+                }
             } catch (error) {
                 console.error('Error loading users:', error);
-                if (retryCount < MAX_RETRIES) { retryCount++; showWakeup(); setTimeout(() => loadUsers(true), 10000);}
-                else { hideAllStates(); document.getElementById('errorState').style.display = 'block'; document.getElementById('totalUsers').textContent = '❌'; document.getElementById('recentUsers').textContent = '❌';}
+                if (retryCount < MAX_RETRIES) {
+                    retryCount++;
+                    showWakeup();
+                    setTimeout(() => loadUsers(true), 10000);
+                } else {
+                    hideAllStates();
+                    document.getElementById('errorState').style.display = 'block';
+                    document.getElementById('totalUsers').textContent = '❌';
+                    document.getElementById('recentUsers').textContent = '❌';
+                }
             }
         }
+
+        function adminLogout() {
+            localStorage.removeItem('adminLogin');
+            adminSecret = '';
+            showAdminUI(false);
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+
         function displayUsers(users) {
             const now = new Date();
             const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
