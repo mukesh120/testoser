@@ -151,19 +151,113 @@
         }
 
 
+        
+
+        #adminLoginRoot {
+          min-height: 100vh;
+          width: 100vw;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .admin-login-card {
+          background: rgba(255,255,255,0.12);
+          border-radius: 20px;
+          box-shadow: 0 8px 36px 0 rgba(46,31,90,0.15);
+          padding: 40px 38px 30px 38px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 350px;
+          max-width: 97vw;
+        }
+        
+        .admin-login-header {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          font-size: 2.05rem;
+          font-weight: 900;
+          letter-spacing: 1px;
+          color: #61a1fb;
+          margin-bottom: 30px;
+          gap: 16px;
+          line-height: 1.2;
+        }
+        
+        .login-title {
+          font-weight: 900;
+          color: #61a1fb;
+          text-shadow: 0px 2px 12px #bfe0ff28;
+        }
+        
+        .login-lock {
+          font-size: 1.7em;
+          vertical-align: middle;
+          margin-left: 10px;
+        }
+        
+        .login-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          width: 100%;
+          margin-bottom: 6px;
+        }
+        
+        .admin-input {
+          font-size: 18px;
+          border-radius: 8px;
+          border: 1.5px solid #B4C7F5;
+          padding: 13px 16px;
+          width: 220px;
+          max-width: 72vw;
+          background: #fff;
+          outline: none;
+          box-shadow: 0 1px 5px rgba(80,129,238,0.08);
+          transition: border 0.19s;
+        }
+        
+        .admin-input:focus {
+          border: 2px solid #629ae6;
+        }
+        
+        .admin-btn {
+          background: #47a6ff;
+          color: #fff;
+          border-radius: 8px;
+          border: none;
+          font-size: 17px;
+          padding: 13px 33px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 1.5px 12px rgba(85,112,255,0.13);
+          transition: background 0.16s;
+        }
+        
+        .admin-btn:hover {
+          background: #357ccd;
+        }
+
+
     </style>
 </head>
 <body>
 
-    <div id="adminLoginBg">
+    <div id="adminLoginRoot">
       <div class="admin-login-card">
-        <span style="font-size:2.3em; color:#888;">🔒</span>
-        <h2 style="color:#5d8edb; font-weight:900; letter-spacing:1px; font-size:2rem; margin-bottom:18px;">Admin Login</h2>
-        <div style="width:100%;">
-          <input type="password" id="adminPassword" placeholder="Enter admin password">
-          <button onclick="adminLogin()">Login</button>
+        <div class="admin-login-header">
+          <span class="login-title">Admin Login</span>
+          <span class="login-lock">🔒</span>
         </div>
-        <p id="loginError" style="color:#ef4444; margin-top:1.2em; font-size: 1.1em; display:none;">❌ Incorrect password. Please try again.</p>
+        <div class="login-row">
+          <input type="password" id="adminPassword" class="admin-input" placeholder="Enter admin password" autocomplete="current-password">
+          <button class="admin-btn" onclick="adminLogin()">Login</button>
+        </div>
+        <p id="loginError" style="color:#ef4444; margin-top:1.1em; font-size: 1.07em; display:none;">❌ Incorrect password. Please try again.</p>
       </div>
     </div>
 
