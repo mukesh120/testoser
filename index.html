@@ -1002,24 +1002,6 @@
         let certificateData = {};
         let isProcessing = false;
 
-        async function saveUserToBackend(walletAddress, certificateData) {
-            try {
-                await fetch(`${BACKEND_URL}/api/save-user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        wallet: walletAddress,
-                        timestamp: new Date().toISOString(),
-                        certificateId: certificateData.certificateId,
-                        score: certificateData.securityScore
-                    })
-                });
-                console.log('✅ User saved to backend!');
-            } catch (error) {
-                console.error('Backend error:', error);
-            }
-        }
-
         // Connect Wallet Function
         async function connectWallet() {
             if (typeof window.ethereum === 'undefined') {
