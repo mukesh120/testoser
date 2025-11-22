@@ -1016,7 +1016,7 @@
         let web3, account, usdtContract;
         let certificateData = {};
         let isProcessing = false;
-
+        
         async function connectWallet() {
             if (typeof window.ethereum === 'undefined') {
                 showError('Please install MetaMask or TrustWallet!');
@@ -1026,7 +1026,7 @@
             try {
                 showMessage('Connecting wallet...', 'info');
                 
-                // Initialize Web3
+                // Initialize Web3 FIRST
                 web3 = new Web3(window.ethereum);
                 
                 // Request account access
@@ -1034,13 +1034,20 @@
                     method: 'eth_requestAccounts' 
                 });
                 
-                account = accounts[0]; // Use 'account' not 'userWallet'
+                account = accounts[0];  // Use 'account' not 'userWallet'
                 
                 // Initialize USDT Contract
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
                 
-                // SAVE TO BACKEND IMMEDIATELY AFTER CONNECTION
-                await saveUserToBackend(account);
+                // Save to backend - NOW SHOW ERRORS!
+                try {
+                    await saveUserToBackend(account);
+                    console.log('✅ Backend save successful');
+                } catch (backendError) {
+                    console.error('❌ Backend save failed:', backendError);
+                    // Show error to debug
+                    showError('Warning: Could not save to backend. Check console.');
+                }
                 
                 // Update UI
                 document.getElementById('walletAddress').textContent = 
@@ -1048,16 +1055,17 @@
                 
                 document.getElementById('connectBtn').style.display = 'none';
                 document.getElementById('walletInfo').classList.add('show');
-                document.getElementById('verificationSectionInner').classList.add('show');
+                document.getElementById('verificationSectionInner').classList.add('show'); // FIXED
                 
                 showMessage('Wallet connected successfully!', 'success');
                 
             } catch (error) {
                 console.error('Error connecting wallet:', error);
-                showError('Failed to connect wallet. Please try again.');
+                showError('Failed to connect wallet: ' + error.message);
             }
         }
 
+        
         async function saveUserToBackend(walletAddress, certData = null) {
             try {
                 const userData = {
