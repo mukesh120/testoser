@@ -93,22 +93,80 @@
             background: #357ccd;
         }
 
+        #adminLoginBg {
+            min-height: 100vh;
+            min-width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .admin-login-card {
+            background: rgba(255,255,255,0.17);
+            border-radius: 18px;
+            box-shadow: 0 8px 28px rgba(46,16,101,0.17), 0 1.5px 8px rgba(42,40,112,0.03);
+            padding: 44px 42px 38px 42px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7em;
+            min-width: 370px;
+            max-width: 95vw;
+            backdrop-filter: blur(9px);
+        }
+        
+        .admin-login-card input[type="password"] {
+            font-size: 18px;
+            border-radius: 8px;
+            border: 1.5px solid #A7B7F3;
+            padding: 14px 18px;
+            width: 250px;
+            max-width: 60vw;
+            margin-right: 12px;
+            background: #fff;
+            outline: none;
+            transition: border 0.2s;
+        }
+        
+        .admin-login-card input[type="password"]:focus {
+            border: 2px solid #629ae6;
+        }
+        
+        .admin-login-card button {
+            background: #47a6ff;
+            color: #fff;
+            border-radius: 8px;
+            border: none;
+            font-size: 17px;
+            padding: 14px 34px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 1.5px 12px rgba(85,112,255,0.12);
+            transition: background 0.15s;
+        }
+        
+        .admin-login-card button:hover {
+            background: #357ccd;
+        }
+
+
     </style>
 </head>
 <body>
 
-    
-    <div id="loginContainer">
-      <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:22px;">
-        <span style="font-size:40px; margin-bottom:8px;">🔒</span>
-        <h2 style="color:#81a7f8; font-weight:900; letter-spacing:2px; font-size:2.3rem; margin: 0 0 24px 0;">Admin Login</h2>
+    <div id="adminLoginBg">
+      <div class="admin-login-card">
+        <span style="font-size:2.3em; color:#888;">🔒</span>
+        <h2 style="color:#5d8edb; font-weight:900; letter-spacing:1px; font-size:2rem; margin-bottom:18px;">Admin Login</h2>
+        <div style="width:100%;">
+          <input type="password" id="adminPassword" placeholder="Enter admin password">
+          <button onclick="adminLogin()">Login</button>
+        </div>
+        <p id="loginError" style="color:#ef4444; margin-top:1.2em; font-size: 1.1em; display:none;">❌ Incorrect password. Please try again.</p>
       </div>
-      <div class="login-card">
-        <input type="password" id="adminPassword" placeholder="Enter admin password">
-        <button onclick="adminLogin()">Login</button>
-      </div>
-      <p id="loginError" style="color:#ef4444; margin-top: 14px; font-size: 1.1em; display:none;">❌ Incorrect password. Please try again.</p>
     </div>
+
 
 
     
