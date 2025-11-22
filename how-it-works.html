@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon - Gradient Badge -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23667eea'/><stop offset='100%25' style='stop-color:%23764ba2'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><path d='M 30 50 L 45 65 L 70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    
+    <!-- SEO Meta Tags -->
+    <title>How It Works - Complete Verification Guide | AML Verify</title>
+    <meta name="description" content="Learn how AML Verify works. Step-by-step guide to cryptocurrency wallet verification, from connection to certificate generation.">
+    <meta name="keywords" content="how AML verification works, wallet verification process, crypto compliance guide, verification steps">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="How AML Verification Works - Complete Guide">
+    <meta property="og:description" content="Step-by-step guide to verifying your cryptocurrency wallet for AML compliance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mukesh120.github.io/testoser/how-it-works.html">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Page-Specific Styles -->
+    <style>
+        .how-hero {
+            margin-top: 70px;
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .how-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .how-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .how-content {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-overview {
+            background: #f8fafc;
+            padding: 60px 5%;
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+
+        .overview-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .overview-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 10%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 10%;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            z-index: 10;
+        }
+
+        .step-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .step-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .step-description {
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .step-duration {
+            display: inline-block;
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .detailed-steps {
+            margin-bottom: 80px;
+        }
+
+        .detailed-step {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 2px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .detailed-step:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .detailed-step h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .detailed-step-icon {
+            font-size: 36px;
+        }
+
+        .detailed-step h3 {
+            font-size: 20px;
+            margin: 25px 0 15px;
+            color: #475569;
+        }
+
+        .detailed-step p {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .detailed-step ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .detailed-step li {
+            margin-bottom: 12px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #075985;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box p {
+            margin: 0;
+            color: #92400e;
+        }
+
+        .tech-specs {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 60px 5%;
+            border-radius: 20px;
+        }
+
+        .tech-specs h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .spec-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .spec-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .spec-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .spec-card p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .how-hero h1 {
+                font-size: 32px;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-content {
+                width: 100% !important;
+                margin-left: 80px !important;
+                margin-right: 0 !important;
+            }
+
+            .timeline-number {
+                left: 30px;
+                transform: none;
+            }
+
+            .detailed-step {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">🛡️ AML Verify</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html#verify" class="nav-cta">Verify Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="how-hero">
+        <h1>How It Works</h1>
+        <p>Complete guide to verifying your crypto wallet in minutes</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="how-content">
+        <!-- Process Overview -->
+        <section class="process-overview">
+            <h2 class="overview-title">Verification Process</h2>
+            <p class="overview-subtitle">Follow these simple steps to complete your AML verification</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div class="timeline-content">
+                        <div class="step-icon">🔌</div>
+                        <h3 class="step-title">Connect Wallet</h3>
+                        <p class="step-description">Connect your MetaMask or Trust Wallet to our secure platform. No private keys required.</p>
+                        <span class="step-duration">⏱️ 10-20 seconds</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div class="timeline-content">
+                        <div class="step-icon">✅</div>
+                        <h3 class="step-title">Approve Access</h3>
+                        <p class="step-description">Authorize USDT data access for comprehensive analysis. One-time approval required.</p>
+                        <span class="step-duration">⏱️ 30-60 seconds</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div class="timeline-content">
+                        <div class="step-icon">🔍</div>
+                        <h3 class="step-title">Analysis</h3>
+                        <p class="step-description">Our AI analyzes your transaction history, risk factors, and compliance status in real-time.</p>
+                        <span class="step-duration">⏱️ 60-90 seconds</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">4</div>
+                    <div class="timeline-content">
+                        <div class="step-icon">📜</div>
+                        <h3 class="step-title">Get Certificate</h3>
+                        <p class="step-description">Receive your security score and downloadable compliance certificate instantly.</p>
+                        <span class="step-duration">⏱️ Instant</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Steps -->
+        <section class="detailed-steps">
+            <!-- Step 1 -->
+            <div class="detailed-step">
+                <h2><span class="detailed-step-icon">🔌</span> Step 1: Connect Your Wallet</h2>
+                
+                <h3>What Happens</h3>
+                <p>When you click "Connect Wallet," you'll be prompted to connect your cryptocurrency wallet to our verification platform.</p>
+
+                <h3>Supported Wallets</h3>
+                <ul>
+                    <li><strong>MetaMask:</strong> Most popular browser extension wallet</li>
+                    <li><strong>Trust Wallet:</strong> Leading mobile cryptocurrency wallet</li>
+                    <li><strong>WalletConnect:</strong> Connect any compatible mobile wallet</li>
+                    <li><strong>Other Web3 Wallets:</strong> Coinbase Wallet, Brave Wallet, etc.</li>
+                </ul>
+
+                <h3>Requirements</h3>
+                <ul>
+                    <li>Must be connected to <strong>Ethereum Mainnet</strong></li>
+                    <li>Small amount of ETH for gas fees ($3-8 typically)</li>
+                    <li>Compatible Web3 wallet installed</li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>💡 Tip:</strong> Make sure you have at least 0.003 ETH in your wallet to cover gas fees before starting verification.</p>
+                </div>
+
+                <h3>Security Notes</h3>
+                <ul>
+                    <li>✅ We only request read-only access to public data</li>
+                    <li>✅ Your private keys remain secure in your wallet</li>
+                    <li>✅ We cannot move or access your funds</li>
+                    <li>✅ Connection uses industry-standard Web3 protocols</li>
+                </ul>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="detailed-step">
+                <h2><span class="detailed-step-icon">✅</span> Step 2: Approve USDT Access</h2>
+                
+                <h3>What Happens</h3>
+                <p>After connecting, you'll be asked to approve USDT token access. This is a standard blockchain transaction that allows us to analyze your USDT holdings and transaction history.</p>
+
+                <h3>Why This is Needed</h3>
+                <ul>
+                    <li>Enables comprehensive transaction history analysis</li>
+                    <li>Required for accurate risk assessment</li>
+                    <li>Follows standard ERC-20 token approval process</li>
+                    <li>One-time approval (doesn't need to be repeated)</li>
+                </ul>
+
+                <div class="warning-box">
+                    <p><strong>⚠️ Gas Fees:</strong> You'll pay a small gas fee ($3-8) to the Ethereum network for this approval transaction. This fee goes to network miners, not to us.</p>
+                </div>
+
+                <h3>Approval Process</h3>
+                <ul>
+                    <li><strong>Step 1:</strong> Approval popup appears in your wallet</li>
+                    <li><strong>Step 2:</strong> Review the transaction details</li>
+                    <li><strong>Step 3:</strong> Confirm the transaction</li>
+                    <li><strong>Step 4:</strong> Wait for blockchain confirmation (30-60 seconds)</li>
+                </ul>
+
+                <h3>What We Access</h3>
+                <ul>
+                    <li>✅ USDT transaction history</li>
+                    <li>✅ Token balance information</li>
+                    <li>✅ Public transaction data</li>
+                    <li>❌ We NEVER move your funds</li>
+                    <li>❌ We NEVER access other tokens without permission</li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>💡 Note:</strong> You don't need to have USDT in your wallet. We only need approval to read transaction data for analysis.</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="detailed-step">
+                <h2><span class="detailed-step-icon">🔍</span> Step 3: Automated Analysis</h2>
+                
+                <h3>What Happens</h3>
+                <p>Once approved, our advanced AI system performs a comprehensive analysis of your wallet in real-time. You'll see progress updates as each analysis phase completes.</p>
+
+                <h3>Analysis Components</h3>
+                <ul>
+                    <li><strong>Wallet Scanning:</strong> Basic wallet structure and information</li>
+                    <li><strong>Transaction History:</strong> Analysis of past transactions and patterns</li>
+                    <li><strong>Risk Assessment:</strong> Evaluation of potential security risks</li>
+                    <li><strong>Compliance Check:</strong> AML/KYC regulatory standards verification</li>
+                    <li><strong>Final Scoring:</strong> Calculation of overall security score</li>
+                </ul>
+
+                <h3>What We Check</h3>
+                <ul>
+                    <li>Transaction patterns and frequency</li>
+                    <li>Wallet age and activity history</li>
+                    <li>Connections to known risky addresses</li>
+                    <li>Compliance with AML regulations</li>
+                    <li>Source and destination of funds</li>
+                    <li>Smart contract interactions</li>
+                </ul>
+
+                <h3>Real-Time Progress</h3>
+                <p>You'll see live updates showing:</p>
+                <ul>
+                    <li>Current analysis phase</li>
+                    <li>Percentage completion</li>
+                    <li>Estimated time remaining</li>
+                    <li>Checkmarks as each phase completes</li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>⚡ Speed:</strong> Most verifications complete in 60-90 seconds. Complex wallets with extensive history may take slightly longer.</p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="detailed-step">
+                <h2><span class="detailed-step-icon">📜</span> Step 4: Receive Your Certificate</h2>
+                
+                <h3>What You Get</h3>
+                <p>Upon completion, you'll receive a comprehensive verification package:</p>
+
+                <h3>Certificate Includes</h3>
+                <ul>
+                    <li><strong>Security Score:</strong> Your overall compliance rating (0-100%)</li>
+                    <li><strong>Certificate ID:</strong> Unique verification identifier</li>
+                    <li><strong>Wallet Address:</strong> Verified wallet information</li>
+                    <li><strong>Verification Date:</strong> Timestamp of verification</li>
+                    <li><strong>Compliance Status:</strong> AML compliance confirmation</li>
+                    <li><strong>Risk Assessment:</strong> Detailed risk evaluation</li>
+                </ul>
+
+                <h3>Certificate Features</h3>
+                <ul>
+                    <li>✅ Downloadable in JSON format</li>
+                    <li>✅ Shareable with exchanges or platforms</li>
+                    <li>✅ Valid for 90 days</li>
+                    <li>✅ Re-verifiable anytime</li>
+                    <li>✅ Professional design</li>
+                </ul>
+
+                <h3>Understanding Your Score</h3>
+                <ul>
+                    <li><strong>85-100%:</strong> Excellent - Highly compliant</li>
+                    <li><strong>70-84%:</strong> Good - Generally compliant</li>
+                    <li><strong>50-69%:</strong> Fair - Some risk factors present</li>
+                    <li><strong>Below 50%:</strong> Review recommended</li>
+                </ul>
+
+                <h3>Next Steps</h3>
+                <ul>
+                    <li>Download your certificate for records</li>
+                    <li>Share with exchanges or services as needed</li>
+                    <li>Re-verify after 90 days or significant changes</li>
+                    <li>Contact support if you have questions about your results</li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>📱 Access Anytime:</strong> You can view and download your certificate at any time by clicking "View Certificate" on your verification page.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specifications -->
+        <section class="tech-specs">
+            <h2>Technical Specifications</h2>
+            
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-icon">⚡</div>
+                    <h3>Processing Speed</h3>
+                    <p>60-90 seconds average verification time</p>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-icon">🔒</div>
+                    <h3>Security</h3>
+                    <p>256-bit SSL encryption & secure Web3 protocols</p>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-icon">🌐</div>
+                    <h3>Blockchain</h3>
+                    <p>Ethereum Mainnet with ERC-20 support</p>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-icon">🎯</div>
+                    <h3>Accuracy</h3>
+                    <p>99.9% accuracy rate with AI-powered analysis</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Ready to Verify Your Wallet?</h2>
+            <p>Start your AML verification now and get your certificate in minutes</p>
+            <a href="index.html#verify" class="start-btn">Start Verification</a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AML Verify</h4>
+                <p style="color: #94a3b8;">Professional cryptocurrency AML compliance verification service.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="faq.html">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 AML Verify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Shared JavaScript -->
+    <script src="assets/js/shared.js"></script>
+</body>
+</html>
