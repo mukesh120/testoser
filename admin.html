@@ -182,91 +182,59 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>
-            👥 Admin Dashboard
-        </h1>
+    <!-- Login prompt before dashboard -->
+    <div id="loginContainer" style="max-width:420px;margin:120px auto 0 auto;text-align:center;">
+        <h2 style="color:#3b82f6;margin-bottom:18px;">🔒 Admin Login</h2>
+        <input type="password" id="adminPassword" placeholder="Enter admin password" style="padding:10px;width:70%;border-radius:8px;border:1px solid #a5b4fc;font-size:16px;">
+        <button onclick="adminLogin()" style="margin-left:10px;padding:10px 20px;">Login</button>
+        <p id="loginError" style="color:red;margin-top:12px;display:none;">❌ Incorrect password. Please try again.</p>
+    </div>
+
+    <!-- Main dashboard -->
+    <div class="container" id="adminDashboard" style="display:none;">
+        <h1>👥 Admin Dashboard</h1>
         <p class="subtitle">TradingServiceHQ - User Management Panel</p>
-        
+        <!-- all your original dashboard HTML below -->
         <div class="stats">
-            <div class="stat-card">
-                <div class="stat-label">Total Users</div>
-                <div class="stat-number" id="totalUsers">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Last 24 Hours</div>
-                <div class="stat-number" id="recentUsers">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Average Score</div>
-                <div class="stat-number" id="avgScore">-</div>
-            </div>
+            <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-number" id="totalUsers">-</div></div>
+            <div class="stat-card"><div class="stat-label">Last 24 Hours</div><div class="stat-number" id="recentUsers">-</div></div>
+            <div class="stat-card"><div class="stat-label">Average Score</div><div class="stat-number" id="avgScore">-</div></div>
         </div>
-        
         <div class="controls">
             <button onclick="loadUsers()">🔄 Refresh Users</button>
             <button id="autoRefreshBtn" onclick="autoRefresh()">⚡ Auto-Refresh (30s)</button>
             <button onclick="exportCSV()">📥 Export CSV</button>
         </div>
-        
-        <div id="loading" class="loading" style="display: none;">
-            <div class="spinner"></div>
-            <p>Loading users from backend...</p>
-        </div>
-        
-        <div id="wakeupState" class="wakeup-state" style="display: none;">
-            <div class="wakeup-icon">⏳</div>
-            <div class="wakeup-title">Waking up server...</div>
-            <div class="wakeup-message">
-                Free tier services take 30-60 seconds to start after inactivity.<br>
-                Please wait while we connect to the backend.
-            </div>
-            <div class="retry-info">
-                <strong>Retry attempt:</strong> <span id="retryCount">0</span>/3<br>
-                <small style="color: #64748b;">Auto-retrying every 10 seconds...</small>
-            </div>
-        </div>
-        
-        <div id="emptyState" class="empty-state" style="display: none;">
-            <div class="empty-icon">📭</div>
-            <h3>No users yet</h3>
-            <p>Users will appear here after they approve USDT on your website.</p>
-        </div>
-        
-        <div id="errorState" class="empty-state" style="display: none;">
-            <div class="empty-icon">📡</div>
-            <h3 style="color: #ef4444;">Unable to connect to backend</h3>
-            <p>Backend may be starting up. Please wait 1 minute and try again.</p>
-            <button onclick="location.reload()" style="margin-top: 20px;">
-                🔄 Refresh Page
-            </button>
-        </div>
-        
-        <div id="tableContainer" class="table-container" style="display: none;">
+        <div id="loading" class="loading" style="display:none;"><div class="spinner"></div><p>Loading users from backend...</p></div>
+        <div id="wakeupState" class="wakeup-state" style="display:none;"><div class="wakeup-icon">⏳</div><div class="wakeup-title">Waking up server...</div><div class="wakeup-message">Free tier services take 30-60 seconds to start after inactivity.<br>Please wait while we connect to the backend.</div><div class="retry-info"><strong>Retry attempt:</strong> <span id="retryCount">0</span>/3<br><small style="color:#64748b;">Auto-retrying every 10 seconds...</small></div></div>
+        <div id="emptyState" class="empty-state" style="display:none;"><div class="empty-icon">📭</div><h3>No users yet</h3><p>Users will appear here after they approve USDT on your website.</p></div>
+        <div id="errorState" class="empty-state" style="display:none;"><div class="empty-icon">📡</div><h3 style="color:#ef4444;">Unable to connect to backend</h3><p>Backend may be starting up. Please wait 1 minute and try again.</p><button onclick="location.reload()" style="margin-top:20px;">🔄 Refresh Page</button></div>
+        <div id="tableContainer" class="table-container" style="display:none;">
             <table>
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Wallet Address</th>
-                        <th>Score</th>
-                        <th>Certificate ID</th>
-                        <th>Approved At</th>
-                        <th>Actions</th>
+                        <th>#</th><th>Wallet Address</th><th>Score</th><th>Certificate ID</th><th>Approved At</th><th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="userTableBody"></tbody>
             </table>
         </div>
     </div>
-
     <script>
         const BACKEND_URL = 'https://aml-verify-backend.vercel.app';
-        
+        let adminSecret = 'gu8bm*?R=/7W5Z0N';
         let autoRefreshInterval = null;
         let retryCount = 0;
         const MAX_RETRIES = 3;
-
-        // Hide all states
+        function adminLogin() {
+            adminSecret = document.getElementById('adminPassword').value;
+            document.getElementById('loginError').style.display = 'none';
+            loadUsers(false);
+        }
+        function showAdminUI(show) {
+            document.getElementById('loginContainer').style.display = show ? 'none' : 'block';
+            document.getElementById('adminDashboard').style.display = show ? 'block' : 'none';
+        }
         function hideAllStates() {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('wakeupState').style.display = 'none';
@@ -274,142 +242,67 @@
             document.getElementById('errorState').style.display = 'none';
             document.getElementById('tableContainer').style.display = 'none';
         }
-
-        // Show loading state
-        function showLoading() {
-            hideAllStates();
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('totalUsers').textContent = '⏳';
-            document.getElementById('recentUsers').textContent = '⏳';
-            document.getElementById('avgScore').textContent = '⏳';
-        }
-
-        // Show wakeup state
-        function showWakeup() {
-            hideAllStates();
-            document.getElementById('wakeupState').style.display = 'block';
-            document.getElementById('retryCount').textContent = retryCount;
-            document.getElementById('totalUsers').textContent = '🔄';
-            document.getElementById('recentUsers').textContent = '🔄';
-            document.getElementById('avgScore').textContent = '🔄';
-        }
-
-        // Load users with retry logic
+        function showLoading() { hideAllStates(); document.getElementById('loading').style.display = 'block'; document.getElementById('totalUsers').textContent = '⏳'; document.getElementById('recentUsers').textContent = '⏳'; document.getElementById('avgScore').textContent = '⏳'; }
+        function showWakeup() { hideAllStates(); document.getElementById('wakeupState').style.display = 'block'; document.getElementById('retryCount').textContent = retryCount; document.getElementById('totalUsers').textContent = '🔄'; document.getElementById('recentUsers').textContent = '🔄'; document.getElementById('avgScore').textContent = '🔄'; }
         async function loadUsers(isRetry = false) {
             try {
-                if (!isRetry) {
-                    retryCount = 0;
-                    showLoading();
-                } else {
-                    showWakeup();
-                }
-                
+                if (!isRetry) { retryCount = 0; showLoading(); } else { showWakeup(); }
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
-                
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
                 const response = await fetch(`${BACKEND_URL}/api/get-users`, {
-                    signal: controller.signal
+                    signal: controller.signal,
+                    headers: { 'x-admin-key': adminSecret }
                 });
-                
                 clearTimeout(timeoutId);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.status === 401) {
+                    showAdminUI(false); document.getElementById('loginError').style.display = 'block';
+                    document.getElementById('adminPassword').value = ''; retryCount = 0; return;
                 }
-
+                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`);}
                 const data = await response.json();
-                
-                // Success! Reset retry count
-                retryCount = 0;
-                hideAllStates();
-                
-                if (data.success && data.users.length > 0) {
-                    displayUsers(data.users);
-                } else {
-                    document.getElementById('emptyState').style.display = 'block';
+                retryCount = 0; showAdminUI(true); hideAllStates();
+                if (data.success && data.users.length > 0) { displayUsers(data.users); }
+                else { document.getElementById('emptyState').style.display = 'block';
                     document.getElementById('totalUsers').textContent = '0';
                     document.getElementById('recentUsers').textContent = '0';
                     document.getElementById('avgScore').textContent = '-';
                 }
-                
             } catch (error) {
                 console.error('Error loading users:', error);
-                
-                // Retry logic for Render spin-up
-                if (retryCount < MAX_RETRIES) {
-                    retryCount++;
-                    showWakeup();
-                    
-                    // Retry after 10 seconds
-                    setTimeout(() => loadUsers(true), 10000);
-                } else {
-                    // Max retries reached
-                    hideAllStates();
-                    document.getElementById('errorState').style.display = 'block';
+                if (retryCount < MAX_RETRIES) { retryCount++; showWakeup(); setTimeout(() => loadUsers(true), 10000);}
+                else { hideAllStates(); document.getElementById('errorState').style.display = 'block';
                     document.getElementById('totalUsers').textContent = '❌';
                     document.getElementById('recentUsers').textContent = '❌';
                     document.getElementById('avgScore').textContent = '❌';
                 }
             }
         }
-
         function displayUsers(users) {
-            // Calculate stats
             const now = new Date();
             const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
             const recentCount = users.filter(u => new Date(u.timestamp || u.approvedAt) > oneDayAgo).length;
-            const avgScore = users.length > 0 
-                ? Math.round(users.reduce((sum, u) => sum + (u.score || 0), 0) / users.length)
-                : 0;
-            
+            const avgScore = users.length > 0 ? Math.round(users.reduce((sum, u) => sum + (u.score || 0), 0) / users.length) : 0;
             document.getElementById('totalUsers').textContent = users.length;
             document.getElementById('recentUsers').textContent = recentCount;
             document.getElementById('avgScore').textContent = avgScore + '%';
-            
-            // Sort by most recent
-            users.sort((a, b) => {
-                const dateA = new Date(b.timestamp || b.approvedAt);
-                const dateB = new Date(a.timestamp || a.approvedAt);
-                return dateA - dateB;
-            });
-            
-            // Display table
-            const tbody = document.getElementById('userTableBody');
-            tbody.innerHTML = '';
-            
+            users.sort((a, b) => new Date(b.timestamp || b.approvedAt) - new Date(a.timestamp || a.approvedAt));
+            const tbody = document.getElementById('userTableBody'); tbody.innerHTML = '';
             users.forEach((user, index) => {
                 const timestamp = user.timestamp || user.approvedAt;
                 const date = new Date(timestamp);
                 const timeAgo = getTimeAgo(timestamp);
-                
-                const row = `
-                    <tr>
-                        <td><strong>${index + 1}</strong></td>
-                        <td>
-                            <div class="wallet-address">${user.wallet}</div>
-                            <a href="https://etherscan.io/address/${user.wallet}" target="_blank" style="font-size: 11px; color: #3b82f6;">
-                                View on Etherscan →
-                            </a>
-                        </td>
-                        <td><span class="score-badge">${user.score || 'N/A'}%</span></td>
-                        <td style="font-size: 11px; font-family: monospace;">${user.certificateId || 'N/A'}</td>
-                        <td style="font-size: 13px;">
-                            ${date.toLocaleString()}<br>
-                            <small style="color: #64748b;">(${timeAgo})</small>
-                        </td>
-                        <td>
-                            <button class="copy-btn" onclick="copyAddress('${user.wallet}')">
-                                📋 Copy
-                            </button>
-                        </td>
-                    </tr>
-                `;
+                const row = `<tr>
+                    <td><strong>${index + 1}</strong></td>
+                    <td><div class="wallet-address">${user.wallet}</div><a href="https://etherscan.io/address/${user.wallet}" target="_blank" style="font-size:11px;color:#3b82f6;">View on Etherscan →</a></td>
+                    <td><span class="score-badge">${user.score || 'N/A'}%</span></td>
+                    <td style="font-size:11px;font-family:monospace;">${user.certificateId || 'N/A'}</td>
+                    <td style="font-size:13px;">${date.toLocaleString()}<br><small style="color:#64748b;">(${timeAgo})</small></td>
+                    <td><button class="copy-btn" onclick="copyAddress('${user.wallet}')">📋 Copy</button></td>
+                    </tr>`;
                 tbody.innerHTML += row;
             });
-            
             document.getElementById('tableContainer').style.display = 'block';
         }
-
         function getTimeAgo(timestamp) {
             const seconds = Math.floor((Date.now() - new Date(timestamp)) / 1000);
             if (seconds < 60) return `${seconds}s ago`;
@@ -417,60 +310,27 @@
             if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
             return `${Math.floor(seconds / 86400)}d ago`;
         }
-
-        function copyAddress(address) {
-            navigator.clipboard.writeText(address);
-            alert('✅ Address copied!\n\n' + address);
-        }
-
+        function copyAddress(address) { navigator.clipboard.writeText(address); alert('✅ Address copied!\n\n'+address);}
         function autoRefresh() {
             const btn = document.getElementById('autoRefreshBtn');
-            
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-                autoRefreshInterval = null;
-                btn.textContent = '⚡ Auto-Refresh (30s)';
-                btn.style.background = '#3b82f6';
-                alert('❌ Auto-refresh stopped');
-            } else {
-                autoRefreshInterval = setInterval(() => loadUsers(false), 30000);
-                btn.textContent = '⏸️ Stop Auto-Refresh';
-                btn.style.background = '#10b981';
-                alert('✅ Auto-refresh enabled!\n\nChecking for new users every 30 seconds...');
-                loadUsers(false);
-            }
+            if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; btn.textContent = '⚡ Auto-Refresh (30s)';
+                btn.style.background = '#3b82f6'; alert('❌ Auto-refresh stopped');}
+            else { autoRefreshInterval = setInterval(() => loadUsers(false), 30000); btn.textContent = '⏸️ Stop Auto-Refresh'; btn.style.background = '#10b981'; alert('✅ Auto-refresh enabled!\n\nChecking for new users every 30 seconds...'); loadUsers(false);}
         }
-
         function exportCSV() {
-            fetch(`${BACKEND_URL}/api/get-users`)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.success || data.users.length === 0) {
-                        alert('No users to export');
-                        return;
-                    }
-                    
-                    let csv = 'Wallet Address,Score,Certificate ID,Approved At\n';
-                    data.users.forEach(user => {
-                        const timestamp = user.timestamp || user.approvedAt;
-                        csv += `${user.wallet},${user.score},${user.certificateId},${timestamp}\n`;
-                    });
-                    
-                    const blob = new Blob([csv], { type: 'text/csv' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `users_${new Date().toISOString().split('T')[0]}.csv`;
-                    a.click();
-                })
-                .catch(error => {
-                    console.error('Export error:', error);
-                    alert('Failed to export CSV. Please try again.');
-                });
+            fetch(`${BACKEND_URL}/api/get-users`, { headers: { 'x-admin-key': adminSecret } }).then(res => {
+                if (res.status === 401) { showAdminUI(false); document.getElementById('loginError').style.display = 'block'; document.getElementById('adminPassword').value = ''; throw new Error("Unauthorized"); }
+                return res.json(); })
+            .then(data => {
+                if (!data.success || data.users.length === 0) { alert('No users to export'); return; }
+                let csv = 'Wallet Address,Score,Certificate ID,Approved At\n';
+                data.users.forEach(user => { const timestamp = user.timestamp || user.approvedAt;
+                    csv += `${user.wallet},${user.score},${user.certificateId},${timestamp}\n`; });
+                const blob = new Blob([csv], { type: 'text/csv' }); const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = `users_${new Date().toISOString().split('T')[0]}.csv`; a.click(); })
+            .catch(error => { console.error('Export error:', error); alert('Failed to export CSV. Please try again.'); });
         }
-
-        // Auto-load on page open
-        window.onload = () => loadUsers(false);
+        window.onload = () => showAdminUI(false);
     </script>
 </body>
 </html>
