@@ -1023,7 +1023,7 @@
         
             if (isProcessing) return;
         
-            // DISCONNECT flow
+            // DISCONNECT flow (2s delay)
             if (btn.textContent === 'Disconnect Wallet') {
                 isProcessing = true;
                 btn.classList.add('btn-loading');
@@ -1050,7 +1050,7 @@
                 return;
             }
         
-            // CONNECT flow
+            // CONNECT flow (1.5s delay)
             try {
                 if (!window.ethereum) {
                     alert('Please install MetaMask or Trust Wallet!');
@@ -1077,7 +1077,7 @@
         
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
         
-                // Save to backend (move inside timing if desired)
+                // Save to backend
                 try {
                     await saveUserToBackend(account);
                     console.log('✅ Backend save successful');
@@ -1086,7 +1086,7 @@
                     showError('Warning: Could not save to backend. Check console.');
                 }
         
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 1500));  // 1.5 seconds for "Connecting"
         
                 btn.classList.remove('btn-loading');
         
@@ -1115,7 +1115,6 @@
                 }
             }
         }
-
         
         async function saveUserToBackend(walletAddress) {
             try {
