@@ -34,6 +34,7 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+/* Make logo clickable */
 .logo {
     font-size: 24px;
     font-weight: 800;
@@ -41,7 +42,16 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s;
 }
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
 
 .nav-links {
     display: flex;
