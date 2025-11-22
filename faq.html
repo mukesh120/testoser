@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon - Gradient Badge -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23667eea'/><stop offset='100%25' style='stop-color:%23764ba2'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><path d='M 30 50 L 45 65 L 70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    
+    <!-- SEO Meta Tags -->
+    <title>FAQ - Frequently Asked Questions | AML Verify</title>
+    <meta name="description" content="Find answers to common questions about AML verification, cryptocurrency compliance, wallet verification, and our security process.">
+    <meta name="keywords" content="AML FAQ, crypto verification questions, wallet verification help, AML compliance answers, USDT verification FAQ">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="FAQ - AML Verify Help Center">
+    <meta property="og:description" content="Get answers to all your questions about cryptocurrency AML verification and compliance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mukesh120.github.io/testoser/faq.html">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Page-Specific Styles -->
+    <style>
+        .faq-hero {
+            margin-top: 70px;
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .faq-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .faq-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .faq-content {
+            padding: 80px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .category-chip {
+            padding: 12px 20px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            color: #475569;
+            border: 2px solid transparent;
+        }
+
+        .category-chip:hover {
+            background: #e2e8f0;
+        }
+
+        .category-chip.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .faq-section {
+            margin-bottom: 40px;
+        }
+
+        .faq-section h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 32px;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: #667eea;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-question.active {
+            background: #f1f5f9;
+            color: #667eea;
+        }
+
+        .faq-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+            color: #667eea;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #f8fafc;
+        }
+
+        .faq-answer.show {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 20px 25px;
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        .faq-answer-content ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .faq-answer-content li {
+            margin-bottom: 8px;
+        }
+
+        .faq-answer-content strong {
+            color: #1e293b;
+        }
+
+        .search-box {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 50px 18px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #94a3b8;
+        }
+
+        .still-questions {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .still-questions h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+
+        .still-questions p {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .contact-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 35px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .contact-cta:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .faq-hero h1 {
+                font-size: 32px;
+            }
+
+            .faq-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🛡️ AML Verify</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html#verify" class="nav-cta">Verify Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <h1>Frequently Asked Questions</h1>
+        <p>Find answers to common questions about AML verification and our services</p>
+    </section>
+
+    <!-- FAQ Content -->
+    <div class="faq-content">
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for answers...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Getting Started -->
+        <section class="faq-section">
+            <h2><span class="section-icon">🚀</span> Getting Started</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What is AML verification?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>AML (Anti-Money Laundering) verification</strong> is a process that checks if your cryptocurrency wallet and transactions comply with financial regulations. It helps ensure that your crypto assets are legitimate and not associated with illegal activities.</p>
+                        <p>Our service analyzes your wallet's transaction history, assesses risk factors, and provides a compliance certificate that proves your assets meet regulatory standards.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    How do I start the verification process?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Getting verified is simple and takes just a few minutes:</p>
+                        <ul>
+                            <li><strong>Step 1:</strong> Connect your crypto wallet (MetaMask or Trust Wallet)</li>
+                            <li><strong>Step 2:</strong> Approve USDT access for verification</li>
+                            <li><strong>Step 3:</strong> Wait 2-3 minutes for analysis</li>
+                            <li><strong>Step 4:</strong> Receive your security certificate</li>
+                        </ul>
+                        <p>No personal information required - just your wallet address!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Is my wallet information secure?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Absolutely!</strong> Security is our top priority. We only analyze public blockchain data that's already available on the Ethereum network. We never:</p>
+                        <ul>
+                            <li>Access your private keys</li>
+                            <li>Store your seed phrase</li>
+                            <li>Request personal information</li>
+                            <li>Have control over your funds</li>
+                        </ul>
+                        <p>Your wallet remains completely secure throughout the verification process.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verification Process -->
+        <section class="faq-section">
+            <h2><span class="section-icon">⚙️</span> Verification Process</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What does the verification check for?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our comprehensive verification analyzes:</p>
+                        <ul>
+                            <li><strong>Transaction history:</strong> Patterns and source of funds</li>
+                            <li><strong>Risk assessment:</strong> Connections to known risky addresses</li>
+                            <li><strong>Compliance check:</strong> AML/KYC regulatory standards</li>
+                            <li><strong>Blockchain verification:</strong> On-chain activity analysis</li>
+                            <li><strong>Security score:</strong> Overall wallet safety rating</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    How long does verification take?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>The entire verification process takes approximately <strong>2-3 minutes</strong>:</p>
+                        <ul>
+                            <li>Wallet connection: 10-20 seconds</li>
+                            <li>USDT approval: 30-60 seconds (gas transaction)</li>
+                            <li>Analysis: 60-90 seconds</li>
+                            <li>Certificate generation: Instant</li>
+                        </ul>
+                        <p>You'll see real-time progress updates throughout the process.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What is the security score?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Your <strong>security score</strong> is a percentage (0-100%) that represents how well your wallet complies with AML standards. It's calculated based on:</p>
+                        <ul>
+                            <li>Transaction legitimacy</li>
+                            <li>Wallet age and activity</li>
+                            <li>Risk factor assessment</li>
+                            <li>Compliance with regulations</li>
+                        </ul>
+                        <p>A score of <strong>75% or higher</strong> is considered excellent and shows your assets are well-compliant.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Questions -->
+        <section class="faq-section">
+            <h2><span class="section-icon">💻</span> Technical Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Which wallets are supported?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We support all Ethereum-compatible wallets including:</p>
+                        <ul>
+                            <li><strong>MetaMask</strong> (desktop & mobile)</li>
+                            <li><strong>Trust Wallet</strong> (mobile)</li>
+                            <li><strong>Coinbase Wallet</strong></li>
+                            <li><strong>WalletConnect</strong> compatible wallets</li>
+                            <li>Any wallet that supports Ethereum Mainnet</li>
+                        </ul>
+                        <p>Make sure you're connected to <strong>Ethereum Mainnet</strong> (not testnets).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Do I need to pay gas fees?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Yes,</strong> you'll need to pay a small gas fee (usually $3-8 in ETH) when approving USDT access. This is a one-time blockchain transaction fee that goes to Ethereum miners, not to us.</p>
+                        <p><strong>Important:</strong> Make sure you have enough ETH in your wallet to cover gas fees before starting verification.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What if I don't have USDT in my wallet?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>You don't need to own USDT to complete verification! We only request approval to access USDT data for analysis purposes. The verification process works even if your USDT balance is zero.</p>
+                        <p>However, you'll still need a small amount of ETH for gas fees.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificate & Results -->
+        <section class="faq-section">
+            <h2><span class="section-icon">📜</span> Certificate & Results</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What do I receive after verification?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>After successful verification, you'll receive:</p>
+                        <ul>
+                            <li><strong>Digital Certificate:</strong> Professional AML compliance certificate</li>
+                            <li><strong>Security Score:</strong> Your compliance rating (0-100%)</li>
+                            <li><strong>Certificate ID:</strong> Unique verification identifier</li>
+                            <li><strong>Timestamp:</strong> Verification date and time</li>
+                            <li><strong>Downloadable Report:</strong> JSON data of your verification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    How long is the certificate valid?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Your AML verification certificate is valid for <strong>90 days</strong> from the date of issuance. After 90 days, we recommend re-verifying to ensure your wallet maintains compliance with the latest regulations.</p>
+                        <p>You can verify your wallet as many times as needed - there's no limit!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Can I download my certificate?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Yes!</strong> You can download your verification data in JSON format. The certificate includes all verification details and can be:</p>
+                        <ul>
+                            <li>Saved for your records</li>
+                            <li>Shared with exchanges or platforms</li>
+                            <li>Used as proof of compliance</li>
+                            <li>Re-accessed anytime through "View Certificate"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing & Support -->
+        <section class="faq-section">
+            <h2><span class="section-icon">💰</span> Pricing & Support</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Is the verification service free?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>The verification service itself is currently free!</strong> You only pay the Ethereum gas fee (typically $3-8) which goes directly to the blockchain network, not to us.</p>
+                        <p>We may introduce premium features in the future, but basic AML verification will remain accessible to everyone.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What if I encounter an error?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>If you encounter any issues:</p>
+                        <ul>
+                            <li>Check that you're on Ethereum Mainnet</li>
+                            <li>Ensure you have enough ETH for gas</li>
+                            <li>Try refreshing the page and reconnecting</li>
+                            <li>Clear your browser cache</li>
+                            <li>Try a different browser or wallet</li>
+                        </ul>
+                        <p>Still having issues? <a href="contact.html" style="color: #667eea; font-weight: 600;">Contact our support team</a> for help!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Still Have Questions -->
+    <section class="still-questions">
+        <h2>Still Have Questions?</h2>
+        <p>Can't find what you're looking for? Our support team is here to help!</p>
+        <a href="contact.html" class="contact-cta">Contact Support</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AML Verify</h4>
+                <p style="color: #94a3b8;">Professional cryptocurrency AML compliance verification service.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="faq.html">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 AML Verify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Shared JavaScript -->
+    <script src="assets/js/shared.js"></script>
+    
+    <!-- Page-Specific JavaScript -->
+    <script>
+        // Toggle FAQ accordion
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const allQuestions = document.querySelectorAll('.faq-question');
+            const allAnswers = document.querySelectorAll('.faq-answer');
+            
+            // Close all other FAQs
+            allQuestions.forEach(q => {
+                if (q !== element) {
+                    q.classList.remove('active');
+                }
+            });
+            allAnswers.forEach(a => {
+                if (a !== answer) {
+                    a.classList.remove('show');
+                }
+            });
+            
+            // Toggle current FAQ
+            element.classList.toggle('active');
+            answer.classList.toggle('show');
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
