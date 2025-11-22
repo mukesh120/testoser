@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon - Gradient Badge -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23667eea'/><stop offset='100%25' style='stop-color:%23764ba2'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><path d='M 30 50 L 45 65 L 70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    
+    <!-- SEO Meta Tags -->
+    <title>Use Cases - Who Benefits from AML Verification | AML Verify</title>
+    <meta name="description" content="Discover how traders, exchanges, DeFi platforms, and institutions use AML Verify for cryptocurrency compliance verification.">
+    <meta name="keywords" content="AML use cases, crypto verification applications, wallet verification uses, blockchain compliance">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Use Cases - AML Verify Applications">
+    <meta property="og:description" content="See how different users benefit from AML verification services.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mukesh120.github.io/testoser/use-cases.html">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Page-Specific Styles -->
+    <style>
+        .usecases-hero {
+            margin-top: 70px;
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .usecases-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .usecases-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .usecases-content {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .intro-section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .intro-section p {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .usecase-section {
+            margin-bottom: 80px;
+        }
+
+        .usecase-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 40px;
+            transition: 0.3s;
+        }
+
+        .usecase-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .usecase-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .usecase-card:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .usecase-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 30px;
+        }
+
+        .usecase-content h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+
+        .usecase-content p {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .usecase-benefits {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .usecase-benefits li {
+            padding: 10px 0;
+            color: #475569;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .usecase-benefits li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .usecase-example {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin-top: 20px;
+        }
+
+        .usecase-example h4 {
+            font-size: 14px;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .usecase-example p {
+            font-size: 14px;
+            color: #475569;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .usecase-visual {
+            text-align: center;
+        }
+
+        .visual-circle {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            border: 3px solid #667eea;
+            padding: 40px;
+        }
+
+        .visual-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .visual-label {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .industries-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 60px 5%;
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+
+        .industries-section h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 50px;
+            color: #1e293b;
+        }
+
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .industry-card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .industry-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .industry-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .industry-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .industry-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .comparison-section {
+            margin-bottom: 80px;
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 50px;
+            color: #1e293b;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .check-mark {
+            color: #10b981;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .cta-final {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 5%;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .cta-final h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-final p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .usecases-hero h1 {
+                font-size: 32px;
+            }
+
+            .usecase-card {
+                grid-template-columns: 1fr;
+                padding: 40px 25px;
+                gap: 30px;
+            }
+
+            .usecase-card:nth-child(even) {
+                direction: ltr;
+            }
+
+            .visual-circle {
+                width: 200px;
+                height: 200px;
+                padding: 30px;
+            }
+
+            .visual-icon {
+                font-size: 60px;
+            }
+
+            .comparison-table {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">🛡️ AML Verify</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html#verify" class="nav-cta">Verify Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="usecases-hero">
+        <h1>Use Cases</h1>
+        <p>Discover how different users benefit from AML verification</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="usecases-content">
+        <!-- Introduction -->
+        <section class="intro-section">
+            <h2>Who Benefits from AML Verification?</h2>
+            <p>Whether you're an individual trader, exchange operator, or institutional investor, AML verification provides the compliance and security assurance you need. Explore how different users leverage our service to meet their specific needs.</p>
+        </section>
+
+        <!-- Use Case 1: Individual Traders -->
+        <section class="usecase-section">
+            <div class="usecase-card">
+                <div class="usecase-content">
+                    <div class="usecase-icon">👤</div>
+                    <h2>Individual Traders & Investors</h2>
+                    <p>Cryptocurrency traders and investors use AML Verify to prove their funds are legitimate and compliant with regulations.</p>
+                    
+                    <ul class="usecase-benefits">
+                        <li>Prove legitimacy of funds to exchanges</li>
+                        <li>Avoid account freezes and investigations</li>
+                        <li>Faster withdrawal approvals</li>
+                        <li>Build trust with trading partners</li>
+                        <li>Maintain clean transaction history</li>
+                    </ul>
+
+                    <div class="usecase-example">
+                        <h4>Real-World Example</h4>
+                        <p>"I needed to verify my wallet before depositing to a major exchange. AML Verify gave me the certificate I needed in under 3 minutes, and my account was approved immediately." - Alex, Crypto Trader</p>
+                    </div>
+                </div>
+
+                <div class="usecase-visual">
+                    <div class="visual-circle">
+                        <div class="visual-icon">📈</div>
+                        <div class="visual-label">Trade with Confidence</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Case 2: Exchanges & Platforms -->
+        <section class="usecase-section">
+            <div class="usecase-card">
+                <div class="usecase-content">
+                    <div class="usecase-icon">🏦</div>
+                    <h2>Exchanges & Trading Platforms</h2>
+                    <p>Cryptocurrency exchanges use AML Verify to screen users and ensure compliance with regulatory requirements.</p>
+                    
+                    <ul class="usecase-benefits">
+                        <li>Automated user screening process</li>
+                        <li>Reduce manual compliance reviews</li>
+                        <li>Meet regulatory obligations</li>
+                        <li>Faster user onboarding</li>
+                        <li>Lower compliance costs</li>
+                    </ul>
+
+                    <div class="usecase-example">
+                        <h4>Real-World Example</h4>
+                        <p>"Integrating AML Verify reduced our user onboarding time by 70%. We can now automatically verify wallets before account approval." - CryptoExchange Pro</p>
+                    </div>
+                </div>
+
+                <div class="usecase-visual">
+                    <div class="visual-circle">
+                        <div class="visual-icon">⚡</div>
+                        <div class="visual-label">Automate Compliance</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Case 3: DeFi Protocols -->
+        <section class="usecase-section">
+            <div class="usecase-card">
+                <div class="usecase-content">
+                    <div class="usecase-icon">🔗</div>
+                    <h2>DeFi Protocols & Platforms</h2>
+                    <p>Decentralized finance platforms integrate AML Verify to maintain compliance while preserving user privacy.</p>
+                    
+                    <ul class="usecase-benefits">
+                        <li>Comply with emerging DeFi regulations</li>
+                        <li>Screen large transactions automatically</li>
+                        <li>Protect protocol reputation</li>
+                        <li>Enable compliant decentralized trading</li>
+                        <li>Attract institutional users</li>
+                    </ul>
+
+                    <div class="usecase-example">
+                        <h4>Real-World Example</h4>
+                        <p>"Our DeFi lending platform requires AML verification for loans over $50k. This gives us and our users peace of mind about compliance." - DeFi Protocol Team</p>
+                    </div>
+                </div>
+
+                <div class="usecase-visual">
+                    <div class="visual-circle">
+                        <div class="visual-icon">🌐</div>
+                        <div class="visual-label">DeFi Compliance</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Case 4: Institutional Investors -->
+        <section class="usecase-section">
+            <div class="usecase-card">
+                <div class="usecase-content">
+                    <div class="usecase-icon">🏢</div>
+                    <h2>Institutional Investors</h2>
+                    <p>Investment firms and institutions use AML Verify for due diligence on cryptocurrency investments and counterparties.</p>
+                    
+                    <ul class="usecase-benefits">
+                        <li>Perform due diligence on crypto assets</li>
+                        <li>Meet institutional compliance standards</li>
+                        <li>Verify counterparty wallets</li>
+                        <li>Document compliance for audits</li>
+                        <li>Reduce investment risk</li>
+                    </ul>
+
+                    <div class="usecase-example">
+                        <h4>Real-World Example</h4>
+                        <p>"Before making any crypto investment, we verify all wallet addresses. AML Verify provides the audit trail our compliance team requires." - Investment Fund Manager</p>
+                    </div>
+                </div>
+
+                <div class="usecase-visual">
+                    <div class="visual-circle">
+                        <div class="visual-icon">💼</div>
+                        <div class="visual-label">Institutional Grade</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Case 5: Compliance Officers -->
+        <section class="usecase-section">
+            <div class="usecase-card">
+                <div class="usecase-content">
+                    <div class="usecase-icon">👮</div>
+                    <h2>Compliance Officers & Auditors</h2>
+                    <p>Compliance professionals use AML Verify to streamline verification workflows and maintain audit trails.</p>
+                    
+                    <ul class="usecase-benefits">
+                        <li>Simplify compliance documentation</li>
+                        <li>Generate audit-ready reports</li>
+                        <li>Track verification history</li>
+                        <li>Automate risk assessments</li>
+                        <li>Reduce manual review time</li>
+                    </ul>
+
+                    <div class="usecase-example">
+                        <h4>Real-World Example</h4>
+                        <p>"AML Verify's detailed certificates make our quarterly audits much smoother. Everything is documented and timestamped." - Compliance Director</p>
+                    </div>
+                </div>
+
+                <div class="usecase-visual">
+                    <div class="visual-circle">
+                        <div class="visual-icon">📋</div>
+                        <div class="visual-label">Audit Ready</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Industries Section -->
+        <section class="industries-section">
+            <h2>Industries We Serve</h2>
+            
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="industry-icon">💱</div>
+                    <h3>Cryptocurrency Exchanges</h3>
+                    <p>User onboarding and ongoing compliance monitoring</p>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🏦</div>
+                    <h3>Financial Institutions</h3>
+                    <p>Due diligence for crypto-related services</p>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🎮</div>
+                    <h3>NFT Marketplaces</h3>
+                    <p>Seller verification and fraud prevention</p>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">💳</div>
+                    <h3>Payment Processors</h3>
+                    <p>Transaction screening and risk management</p>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🎯</div>
+                    <h3>Investment Funds</h3>
+                    <p>Portfolio due diligence and compliance</p>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🔐</div>
+                    <h3>Custodian Services</h3>
+                    <p>Asset verification and security assurance</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section class="comparison-section">
+            <h2>Benefits by User Type</h2>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Individuals</th>
+                            <th>Exchanges</th>
+                            <th>Institutions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Quick Verification</strong></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instant Certificate</strong></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>API Integration</strong></td>
+                            <td>-</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bulk Verification</strong></td>
+                            <td>-</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom Reporting</strong></td>
+                            <td>-</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dedicated Support</strong></td>
+                            <td>-</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="cta-final">
+            <h2>Ready to Get Started?</h2>
+            <p>Join thousands of users who trust AML Verify for their compliance needs</p>
+            <a href="index.html#verify" class="cta-btn">Start Your Verification</a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AML Verify</h4>
+                <p style="color: #94a3b8;">Professional cryptocurrency AML compliance verification service.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="faq.html">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 AML Verify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Shared JavaScript -->
+    <script src="assets/js/shared.js"></script>
+</body>
+</html>
