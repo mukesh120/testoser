@@ -1016,22 +1016,27 @@
         let web3, account, usdtContract;
         let certificateData = {};
         let isProcessing = false;
-        
+
         async function connectWallet() {
             const btn = document.getElementById('connectBtn');
             const walletInfo = document.getElementById('walletInfo');
         
-            // If already connected, disconnect (toggle)
+            if (isProcessing) return;
+        
+            // DISCONNECT flow
             if (btn.textContent === 'Disconnect Wallet') {
-                // Reset UI
-                walletInfo.classList.remove('show');
-                btn.disabled = false;
+                isProcessing = true;
+                btn.classList.add('btn-loading');
+                btn.innerHTML = '<span class="pulsing-text">Disconnecting</span>';
+                walletInfo.classList.add('fade-out');
+        
+                await new Promise(resolve => setTimeout(resolve, 2000));
+        
+                walletInfo.classList.remove('show', 'fade-out', 'fade-in');
+                btn.classList.remove('btn-loading');
                 btn.textContent = 'Connect Wallet';
         
-                // If using "verificationSectionInner" (update to your section ID)
                 document.getElementById('verificationSectionInner').classList.remove('show');
-        
-                // Reset verification UI if needed
                 if (document.getElementById('analysisComplete')) document.getElementById('analysisComplete').classList.remove('show');
                 if (document.getElementById('downloadBtn')) document.getElementById('downloadBtn').style.display = 'none';
                 if (document.getElementById('verifyBtn')) {
@@ -1041,40 +1046,38 @@
                 }
                 if (document.getElementById('progressContainer')) document.getElementById('progressContainer').classList.remove('show');
         
-                showMessage('Disconnected wallet.', 'info');
+                isProcessing = false;
                 return;
             }
         
-            // Otherwise, connect wallet
-            if (typeof window.ethereum === 'undefined') {
-                showError('Please install MetaMask or TrustWallet!');
-                return;
-            }
-        
+            // CONNECT flow
             try {
-                showMessage('Connecting wallet...', 'info');
+                if (!window.ethereum) {
+                    alert('Please install MetaMask or Trust Wallet!');
+                    return;
+                }
         
-                // Initialize Web3
+                isProcessing = true;
+                btn.classList.add('btn-loading');
+                btn.innerHTML = '<span class="pulsing-text">Connecting</span>';
+        
                 web3 = new Web3(window.ethereum);
-        
-                // Request account access
-                const accounts = await window.ethereum.request({
-                    method: 'eth_requestAccounts'
-                });
-        
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 account = accounts[0];
         
-                // Optionally check for Ethereum mainnet:
+                // Optional: Ethereum mainnet check
                 // const chainId = await web3.eth.getChainId();
                 // if (chainId !== 1) {
-                //     showError('Please switch to Ethereum Mainnet!');
+                //     btn.classList.remove('btn-loading');
+                //     btn.textContent = 'Connect Wallet';
+                //     isProcessing = false;
+                //     alert('Please switch to Ethereum Mainnet!');
                 //     return;
                 // }
         
-                // Initialize USDT contract if needed
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
         
-                // Save user to backend
+                // Save to backend (move inside timing if desired)
                 try {
                     await saveUserToBackend(account);
                     console.log('✅ Backend save successful');
@@ -1083,22 +1086,35 @@
                     showError('Warning: Could not save to backend. Check console.');
                 }
         
-                // Update UI
+                await new Promise(resolve => setTimeout(resolve, 2000));
+        
+                btn.classList.remove('btn-loading');
+        
                 document.getElementById('walletAddress').textContent =
                     account.slice(0, 6) + '...' + account.slice(-4);
         
+                walletInfo.classList.add('fade-in');
                 walletInfo.classList.add('show');
+        
                 btn.textContent = 'Disconnect Wallet';
+        
                 document.getElementById('verificationSectionInner').classList.add('show');
         
-                showMessage('Wallet connected successfully!', 'success');
+                isProcessing = false;
         
             } catch (error) {
-                console.error('Error connecting wallet:', error);
-                showError('Failed to connect wallet: ' + error.message);
+                console.error(error);
+                btn.classList.remove('btn-loading');
+                btn.textContent = 'Connect Wallet';
+                isProcessing = false;
+        
+                if (error.code === 4001) {
+                    alert('Connection rejected. Please try again!');
+                } else {
+                    alert('Failed to connect wallet: ' + error.message);
+                }
             }
         }
-
 
         
         async function saveUserToBackend(walletAddress) {
