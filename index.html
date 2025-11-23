@@ -1061,9 +1061,6 @@
             </div>
     
             <div class="cert-buttons">
-                <button class="cert-btn cert-btn-primary" onclick="downloadCertificate()">
-                    Download verification data
-                </button>
                 <button class="cert-btn cert-btn-close" onclick="closeCertificate()">
                     Close certificate
                 </button>
@@ -1331,7 +1328,7 @@
         function generateCertificateData() {
             const first8 = account.slice(0, 10);
             const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000;
-            const securityScore = 84;
+            const securityScore = 100;
             
             const now = new Date();
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
@@ -1391,7 +1388,8 @@
             document.getElementById('certIntegrityCheck').textContent = 'Passed';
         
             // Wallet address line
-            document.getElementById('certWalletAddress').textContent = certificateData.walletAddress;
+            const addr = certificateData.walletAddress;
+            document.getElementById('certWalletAddress').textContent = addr.slice(0, 4) + '......' + addr.slice(-4);
         
             // Show modal
             document.getElementById('certificateModal').classList.add('show');
