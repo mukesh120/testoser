@@ -405,66 +405,62 @@ body {
 }
 
 /* ====================================
-   MOBILE NAVIGATION (Hamburger Menu)
+   MOBILE NAVIGATION (Simplified)
    ==================================== */
 
-.mobile-menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 28px;
-    color: white;
-    cursor: pointer;
-    padding: 8px;
-    position: relative;
-    z-index: 1001;
-}
-
 @media (max-width: 768px) {
-    /* Show hamburger button on mobile */
-    .mobile-menu-toggle {
-        display: block;
-        color: white !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Hide nav links by default on mobile */
-    .nav-links {
-        position: fixed;
-        top: 70px;
-        right: -100%;
-        width: 70%;
-        max-width: 300px;
-        height: calc(100vh - 70px);
-        background: #1e293b;
+    .navbar {
         flex-direction: column;
-        padding: 30px 0;
-        transition: right 0.3s ease;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-        z-index: 999;
+        padding: 15px 5%;
+        align-items: center;
+        gap: 15px;
     }
 
-    /* Show menu when active */
-    .nav-links.active {
-        right: 0;
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
     }
 
     .nav-links li {
         margin: 0;
-        width: 100%;
-        text-align: center;
     }
 
     .nav-links li a {
-        display: block;
-        padding: 15px 20px;
-        width: 100%;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .nav-links li a:hover {
+        background: rgba(102, 126, 234, 0.1);
     }
 
     .nav-cta {
-        margin: 10px 20px !important;
-        display: block !important;
-        text-align: center !important;
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* Extra small screens - Stack vertically */
+@media (max-width: 480px) {
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-links li a {
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
     }
 }
 
