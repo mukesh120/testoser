@@ -3,68 +3,96 @@
    Used across all pages
    ================================ */
 
-// Smooth scroll for navigation links
+// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scroll for anchor links
+    
+    // ==================
+    // SMOOTH SCROLLING
+    // ==================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Close mobile menu after clicking
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks) {
+                    navLinks.classList.remove('active');
+                }
             }
         });
     });
 
-    // Add active class to current page in navigation
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    // ==================
+    // ACTIVE PAGE HIGHLIGHT
+    // ==================
+    const currentPath = window.location.pathname;
     document.querySelectorAll('.nav-links a').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
+        const linkPath = link.getAttribute('href');
+        
+        // Match current page
+        if (linkPath === currentPath || 
+            (currentPath === '/' && linkPath === '/') ||
+            currentPath.includes(linkPath.replace('/', ''))) {
             link.style.color = '#667eea';
         }
     });
+
+    // ==================
+    // MOBILE MENU - CLOSE ON LINK CLICK
+    // ==================
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) {
+                navLinks.classList.remove('active');
+            }
+        });
+    });
 });
 
-// Mobile menu toggle (for future implementation)
-function toggleMobileMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('mobile-active');
-}
-
-// Scroll to top button (optional - can be added later)
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Add scroll-based navbar shadow
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-    }
-});
-
-// Toggle mobile menu
+// ==================
+// MOBILE MENU TOGGLE
+// ==================
 function toggleMobileMenu() {
     const navLinks = document.getElementById('navLinks');
-    navLinks.classList.toggle('active');
+    if (navLinks) {
+        navLinks.classList.toggle('active');
+    }
 }
 
-// Close menu when clicking outside
+// ==================
+// CLOSE MENU WHEN CLICKING OUTSIDE
+// ==================
 document.addEventListener('click', function(event) {
     const navLinks = document.getElementById('navLinks');
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const navbar = document.querySelector('.navbar');
     
-    if (!event.target.closest('.navbar')) {
+    // Only close if clicking outside navbar and menu is open
+    if (navLinks && !event.target.closest('.navbar') && navLinks.classList.contains('active')) {
         navLinks.classList.remove('active');
     }
 });
 
-// Close menu when clicking a link
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', function() {
-        document.getElementById('navLinks').classList.remove('active');
-    });
+// ==================
+// NAVBAR SHADOW ON SCROLL
+// ==================
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        if (window.scrollY > 50) {
+            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+        } else {
+            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        }
+    }
 });
+
+// ==================
+// SCROLL TO TOP (Optional)
+// ==================
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
