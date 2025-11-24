@@ -60,8 +60,12 @@ function toggleMobileMenu() {
     const navLinks = document.getElementById('navLinks');
     if (navLinks) {
         navLinks.classList.toggle('active');
+        console.log('Menu toggled!'); // Debug message
+    } else {
+        console.error('navLinks element not found!');
     }
 }
+
 
 // ==================
 // CLOSE MENU WHEN CLICKING OUTSIDE
