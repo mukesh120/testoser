@@ -15,12 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                
-                // Close mobile menu after clicking
-                const navLinks = document.getElementById('navLinks');
-                if (navLinks) {
-                    navLinks.classList.remove('active');
-                }
             }
         });
     });
@@ -39,45 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
             link.style.color = '#667eea';
         }
     });
-
-    // ==================
-    // MOBILE MENU - CLOSE ON LINK CLICK
-    // ==================
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', function() {
-            const navLinks = document.getElementById('navLinks');
-            if (navLinks) {
-                navLinks.classList.remove('active');
-            }
-        });
-    });
-});
-
-// ==================
-// MOBILE MENU TOGGLE
-// ==================
-function toggleMobileMenu() {
-    const navLinks = document.getElementById('navLinks');
-    if (navLinks) {
-        navLinks.classList.toggle('active');
-        console.log('Menu toggled!'); // Debug message
-    } else {
-        console.error('navLinks element not found!');
-    }
-}
-
-
-// ==================
-// CLOSE MENU WHEN CLICKING OUTSIDE
-// ==================
-document.addEventListener('click', function(event) {
-    const navLinks = document.getElementById('navLinks');
-    const navbar = document.querySelector('.navbar');
-    
-    // Only close if clicking outside navbar and menu is open
-    if (navLinks && !event.target.closest('.navbar') && navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-    }
 });
 
 // ==================
