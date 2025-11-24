@@ -410,59 +410,29 @@ body {
 
 @media (max-width: 768px) {
     .navbar {
-        flex-direction: column;
+        flex-direction: row;
         padding: 15px 5%;
         align-items: center;
-        gap: 15px;
+        justify-content: space-between;
     }
 
     .logo {
-        font-size: 20px;
+        font-size: 18px;
     }
 
+    /* Hide navigation links on mobile */
     .nav-links {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-    }
-
-    .nav-links li {
-        margin: 0;
-    }
-
-    .nav-links li a {
-        font-size: 14px;
-        padding: 8px 12px;
-        border-radius: 8px;
-        transition: 0.2s;
-    }
-
-    .nav-links li a:hover {
-        background: rgba(102, 126, 234, 0.1);
-    }
-
-    .nav-cta {
-        padding: 8px 16px !important;
-        font-size: 14px !important;
+        display: none;
     }
 }
 
-/* Extra small screens - Stack vertically */
+/* Extra small screens */
 @media (max-width: 480px) {
-    .nav-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .nav-links li a {
-        padding: 10px 20px;
-        width: 100%;
-        text-align: center;
+    .logo {
+        font-size: 16px;
     }
 }
+
 
 /* ====================================
    IMPROVED MOBILE FOOTER
